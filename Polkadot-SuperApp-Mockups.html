@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POLKADOT SUPER-APP // MOCKUPS</title>
+<style>
+  :root{
+    --bg:#000;--fg:#fff;--dim:#8a8a8a;--line:rgba(255,255,255,.16);
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+    --disp:"Arial Black","Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#000;color:#fff;font-family:var(--mono);-webkit-font-smoothing:antialiased}
+  .fx{position:fixed;inset:0;pointer-events:none;z-index:80}
+  .fx.scan{background:repeating-linear-gradient(0deg,rgba(255,255,255,.045) 0,rgba(255,255,255,.045) 1px,transparent 1px,transparent 3px);opacity:.5}
+  .fx.grid{background:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:46px 46px;opacity:.3}
+
+  header{padding:clamp(28px,5vw,64px) clamp(20px,5vw,64px) 8px}
+  .tag{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--dim)}
+  .tag::before{content:"> "}
+  h1{font-family:var(--disp);font-weight:900;text-transform:uppercase;letter-spacing:-.02em;line-height:.95;font-size:clamp(32px,6vw,72px);margin:.12em 0}
+  .sub{color:var(--dim);max-width:62ch;font-size:clamp(13px,1.4vw,17px);line-height:1.55}
+  .note{margin-top:10px;border:1px solid var(--line);display:inline-block;padding:.5em .8em;font-size:12px;color:var(--dim)}
+  .note b{color:#fff}
+
+  .gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:clamp(22px,3vw,40px);
+       padding:clamp(22px,4vw,56px);max-width:1500px;margin:0 auto}
+  .cell{display:flex;flex-direction:column;gap:12px}
+  .cap{font-size:12px;color:var(--dim);line-height:1.4}
+  .cap b{color:#fff;text-transform:uppercase;letter-spacing:.06em;font-family:var(--disp);font-size:13px}
+  .cap code{background:#fff;color:#000;padding:.02em .3em}
+
+  /* phone */
+  .phone{position:relative;width:100%;max-width:340px;margin:0 auto;aspect-ratio:9/19.2;
+         background:#000;border:2px solid #fff;border-radius:34px;padding:10px;
+         box-shadow:0 0 0 1px #000,0 0 40px rgba(255,255,255,.12)}
+  .scr{position:relative;height:100%;border-radius:24px;overflow:hidden;background:#050505;
+       border:1px solid var(--line);display:flex;flex-direction:column}
+  .notch{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:38%;height:18px;background:#000;border:1px solid var(--line);border-radius:0 0 12px 12px;z-index:5}
+  .sb{display:flex;justify-content:space-between;align-items:center;padding:10px 16px 6px;font-size:10px;letter-spacing:.1em;color:#fff}
+  .sb .r{display:flex;gap:6px;align-items:center}
+  .body{flex:1;min-height:0;overflow:hidden;padding:6px 16px 14px;display:flex;flex-direction:column;gap:12px}
+
+  .disp{font-family:var(--disp);text-transform:uppercase;letter-spacing:-.01em}
+  .h{font-family:var(--disp);text-transform:uppercase;font-size:15px;letter-spacing:.02em}
+  .xl{font-family:var(--disp);font-size:40px;line-height:1;letter-spacing:-.02em}
+  .lg{font-family:var(--disp);font-size:26px;line-height:1}
+  .dim{color:var(--dim)}
+  .mono{font-family:var(--mono)}
+  .s11{font-size:11px}.s12{font-size:12px}.s13{font-size:13px}
+  .box{border:1px solid var(--line);padding:11px;position:relative}
+  .box::before,.box::after{content:"";position:absolute;width:9px;height:9px;border:1.5px solid #fff}
+  .box::before{left:-1px;top:-1px;border-right:none;border-bottom:none}
+  .box::after{right:-1px;bottom:-1px;border-left:none;border-top:none}
+  .inv{background:#fff;color:#000;border-color:#fff}
+  .inv .dim{color:#444}
+  .btn{border:1px solid #fff;text-align:center;padding:11px;font-family:var(--disp);text-transform:uppercase;font-size:13px;letter-spacing:.04em}
+  .btn.solid{background:#fff;color:#000}
+  .row{display:flex;gap:8px}.row>*{flex:1}
+  .between{display:flex;justify-content:space-between;align-items:center}
+  .chip{border:1px solid var(--line);padding:.2em .5em;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim)}
+  .chip.on{background:#fff;color:#000;border-color:#fff}
+  .nav{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:9px;margin-top:auto;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+  .nav .a{color:#fff}
+  .dot{width:6px;height:6px;border-radius:50%;background:#fff;display:inline-block}
+  .scan-mini{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0,rgba(255,255,255,.04) 1px,transparent 1px,transparent 3px);pointer-events:none;z-index:6}
+  .cursor{display:inline-block;width:.5em;height:1em;background:#fff;transform:translateY(.12em);animation:bl 1s steps(1) infinite}
+  @keyframes bl{50%{opacity:0}}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .tile{border:1px solid var(--line);aspect-ratio:1;display:flex;flex-direction:column;justify-content:space-between;padding:9px}
+  .tile .ic{font-family:var(--disp);font-size:20px}
+  .ttt{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;aspect-ratio:1}
+  .ttt div{border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-size:26px}
+  .bars{display:flex;gap:3px;align-items:flex-end;height:34px}
+  .bars i{flex:1;background:#fff;display:block}
+  .footer{padding:10px 24px 40px;color:var(--dim);font-size:11px;text-align:center;letter-spacing:.1em}
+  .pct{height:4px;border:1px solid var(--line);position:relative}
+  .pct i{position:absolute;left:0;top:0;bottom:0;background:#fff}
+</style>
+</head>
+<body>
+<div class="fx grid"></div>
+<div class="fx scan"></div>
+
+<header>
+  <span class="tag">paritytech // ui mockups · concept</span>
+  <h1>The Super-App,<br>Sketched.</h1>
+  <p class="sub">Concept screens reconstructed from the <b>TrUAPI</b> method surface, the <b>product-sdk</b>, and the reference products. The repos ship no screenshots — these are <b>illustrative mock-ups</b>, not real captures. Each screen is annotated with the protocol primitive it would call.</p>
+  <div class="note">⚠ <b>Concept art.</b> Not official Parity designs · names/balances fictional · testnet semantics.</div>
+</header>
+
+<div class="gal">
+
+  <!-- 1 LOGIN -->
+  <div class="cell">
+    <div class="phone"><div class="notch"></div><div class="scr"><div class="scan-mini"></div>
+      <div class="sb"><span>09:41</span><div class="r"><span>5G</span><span>▮▮▮</span></div></div>
+      <div class="body" style="justify-content:center;gap:18px">
+        <div><div class="xl">POLKA</div><div class="xl">DOT<span class="cursor"></span></div></div>
+        <p class="dim s12">One identity. One balance. Every app.</p>
+        <div style="display:flex;flex-direction:column;gap:9px;margin-top:6px">
+          <div class="btn solid">Continue with .dot</div>
+          <div class="btn">Login with Google</div>
+          <div class="btn" style="border-color:var(--line)">Import a wallet</div>
+        </div>
+        <p class="dim s11" style="text-align:center">creates <b style="color:#fff">you.dot</b> · keys stay on device</p>
+      </div>
+    </div></div>
+    <p class="cap"><b>01 · Onboarding</b><br>Web2 or Web3 door. Mints a <code>.dot</code> DotNS identity. → <code>host_request_login</code></p>
+  </div>
+
+  <!-- 2 HOME / WALLET -->
+  <div class="cell">
+    <div class="phone"><div class="notch"></div><div class="scr"><div class="scan-mini"></div>
+      <div class="sb"><span>09:41</span><div class="r"><span>5G</span><span>▮▮▮</span></div></div>
+      <div class="body">
+        <div class="between"><span class="h">ada.dot</span><span class="chip on">●&nbsp;connected</span></div>
+        <div class="box">
+          <div class="dim s11">BALANCE</div>
+          <div class="xl">1,240.50</div>
+          <div class="dim s11">≈ credits · pay fees in any asset</div>
+        </div>
+        <div class="row">
+          <div class="btn solid">Pay</div>
+          <div class="btn">Top&nbsp;up</div>
+          <div class="btn">Scan</div>
+        </div>
+        <div class="dim s11" style="letter-spacing:.1em">MY APPS</div>
+        <div class="grid2">
+          <div class="tile"><span class="ic">▦</span><span class="s11">festival.dot</span></div>
+          <div class="tile"><span class="ic">▶</span><span class="s11">arcade.dot</span></div>
+          <div class="tile"><span class="ic">≣</span><span class="s11">survey.dot</span></div>
+          <div class="tile inv"><span class="ic">+</span><span class="s11">store</span></div>
+        </div>
+        <div class="nav"><span class="a">◉ home</span><span>apps</span><span>chat</span><span>me</span></div>
+      </div>
+    </div></div>
+    <p class="cap"><b>02 · Home / Wallet</b><br>Host-managed balance = "credits". → <code>host_payment_balance_subscribe</code></p>
+  </div>
+
+  <!-- 3 TOP-UP -->
+  <div class="cell">
+    <div class="phone"><div class="notch"></div><div class="scr"><div class="scan-mini"></div>
+      <div class="sb"><span>09:41</span><div class="r"><span>5G</span><span>▮▮▮</span></div></div>
+      <div class="body">
+        <div class="between"><span class="h">Top up</span><span class="dim">✕</span></div>
+        <div class="box"><div class="dim s11">ADD TO BALANCE</div><div class="lg">+ 500.00</div></div>
+        <div class="row">
+          <div class="chip on">100</div><div class="chip">250</div><div class="chip">500</div><div class="chip">1k</div>
+        </div>
+        <div class="dim s11" style="letter-spacing:.1em">SOURCE</div>
+        <div class="box between s12"><span>DOT · Asset Hub</span><span class="dim">▾</span></div>
+        <div class="box between s12"><span>USDC → auto-swap</span><span class="dim">▾</span></div>
+        <div class="box inv s12"><div class="between"><span><b>Fee</b> abstracted</span><span>swap → DOT</span></div></div>
+        <div class="btn solid" style="margin-top:auto">Confirm top-up</div>
+        <p class="dim s11" style="text-align:center">no extra consent · product-controlled source</p>
+      </div>
+    </div></div>
+    <p class="cap"><b>03 · Recharge (buyer)</b><br>Funds the customer balance. → <code>host_payment_top_up</code></p>
+  </div>
+
+  <!-- 4 PAY / TAP-TO-PAY -->
+  <div class="cell">
+    <div class="phone"><div class="notch"></div><div class="scr"><div class="scan-mini"></div>
+      <div class="sb"><span>09:41</span><div class="r"><span>NFC</span><span>▮▮▮</span></div></div>
+      <div class="body" style="text-align:center">
+        <div class="between" style="text-align:left"><span class="h">Pay</span><span class="dim">✕</span></div>
+        <div class="box" style="text-align:left">
+          <div class="dim s11">TO</div>
+          <div class="lg">cafe-luma.dot</div>
+          <div class="dim s11">merchant · verified ✓</div>
+        </div>
+        <div class="xl" style="margin:6px 0">42.00</div>
+        <div class="dim s11">from balance · −20% paying in DOT</div>
+        <div class="box" style="margin-top:4px">
+          <div class="disp s13">◐ TAP TO PAY</div>
+          <div class="dim s11">hold near reader · or</div>
+        </div>
+        <div class="btn solid" style="margin-top:6px">⊙ Confirm with Face ID</div>
+        <div class="dim s11">PaymentId pending · <span class="mono">processing…</span></div>
+      </div>
+    </div></div>
+    <p class="cap"><b>04 · Pay the seller</b><br>Request to a destination + biometric. → <code>host_payment_request</code> · <code>NFC</code> · <code>Biometrics</code></p>
+  </div>
+
+  <!-- 5 PERMISSION JIT -->
+  <div class="cell">
+    <div class="phone"><div class="notch"></div><div class="scr"><div class="scan-mini"></div>
+      <div class="sb"><span>09:41</span><div class="r"><span>5G</span><span>▮▮▮</span></div></div>
+      <div class="body" style="justify-content:flex-end;gap:0">
+        <div style="opacity:.25;flex:1;display:flex;flex-direction:column;gap:10px;padding-top:10px">
+          <div class="h">festival.dot</div><div class="box">&nbsp;</div><div class="box">&nbsp;</div>
+        </div>
+        <div class="box inv" style="margin:0 -6px -6px;border-radius:0">
+          <div class="disp" style="font-size:17px">"festival.dot" wants</div>
+          <div class="lg" style="margin:6px 0">◐ NFC</div>
+          <p class="s12" style="color:#222">Tap-to-pay &amp; read event tags. The app gets a <b>scoped</b> account — never your full wallet.</p>
+          <div style="display:flex;flex-direction:column;gap:7px;margin-top:10px">
+            <div class="btn solid" style="background:#000;color:#fff;border-color:#000">Allow always</div>
+            <div class="btn" style="border-color:#000;color:#000">This time only</div>
+            <div class="btn" style="border-color:#000;color:#000">Never</div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <p class="cap"><b>05 · JIT permission</b><br>iOS-style consent per capability. → <code>host_device_permission</code></p>
+  </div>
+
+  <!-- 6 APP STORE -->
+  <div class="cell">
+    <div class="phone"><div class="notch"></div><div class="scr"><div class="scan-mini"></div>
+      <div class="sb"><span>09:41</span><div class="r"><span>5G</span><span>▮▮▮</span></div></div>
+      <div class="body">
+        <div class="between"><span class="h">Products</span><span class="dim">⌕</span></div>
+        <div class="box between s12"><span class="dim">search .dot apps…</span><span>⌕</span></div>
+        <div class="row"><span class="chip on">all</span><span class="chip">pay</span><span class="chip">social</span><span class="chip">play</span></div>
+        <div class="grid2">
+          <div class="tile"><span class="ic">▦</span><div><div class="s11">festival</div><div class="dim s11">tickets · POAP</div></div></div>
+          <div class="tile"><span class="ic">▶</span><div><div class="s11">arcade</div><div class="dim s11">multiplayer</div></div></div>
+          <div class="tile"><span class="ic">≣</span><div><div class="s11">survey</div><div class="dim s11">governance</div></div></div>
+          <div class="tile"><span class="ic">⌨</span><div><div class="s11">t3rminal</div><div class="dim s11">publish</div></div></div>
+          <div class="tile"><span class="ic">✉</span><div><div class="s11">chat</div><div class="dim s11">e2e</div></div></div>
+          <div class="tile inv"><span class="ic">∞</span><div><div class="s11">agent-built</div><div class="dim s11">new</div></div></div>
+        </div>
+        <div class="nav"><span>home</span><span class="a">◉ apps</span><span>chat</span><span>me</span></div>
+      </div>
+    </div></div>
+    <p class="cap"><b>06 · Mini-app store</b><br>Products as sandboxed webviews. → <code>product-sdk</code> · agent-stocked catalog</p>
+  </div>
+
+  <!-- 7 FESTIVAL -->
+  <div class="cell">
+    <div class="phone"><div class="notch"></div><div class="scr"><div class="scan-mini"></div>
+      <div class="sb"><span>09:41</span><div class="r"><span>festival.dot</span></div></div>
+      <div class="body">
+        <div class="h">My pass</div>
+        <div class="box inv" style="text-align:center">
+          <div class="dim s11">SOULBOUND TICKET</div>
+          <div class="lg" style="margin:6px 0">WEB3<br>SUMMIT</div>
+          <div class="s11">ada.dot · non-transferable ◆</div>
+          <div style="height:30px;margin-top:8px;background:repeating-linear-gradient(90deg,#000 0,#000 3px,#fff 3px,#fff 5px)"></div>
+        </div>
+        <div class="dim s11" style="letter-spacing:.1em">POAPs · 3 COLLECTED</div>
+        <div class="row">
+          <div class="tile" style="aspect-ratio:1"><span class="ic">◷</span><span class="s11">day 1</span></div>
+          <div class="tile" style="aspect-ratio:1"><span class="ic">◑</span><span class="s11">keynote</span></div>
+          <div class="tile" style="aspect-ratio:1"><span class="ic">✦</span><span class="s11">afterpty</span></div>
+        </div>
+        <div class="btn">⌁ Check in via NFC</div>
+        <div class="nav"><span class="a">◉ pass</span><span>agenda</span><span>map</span></div>
+      </div>
+    </div></div>
+    <p class="cap"><b>07 · Product: festival</b><br>Soulbound ticket + POAPs. → <code>NonTransferableERC721</code> · Bulletin storage</p>
+  </div>
+
+  <!-- 8 ARCADE -->
+  <div class="cell">
+    <div class="phone"><div class="notch"></div><div class="scr"><div class="scan-mini"></div>
+      <div class="sb"><span>09:41</span><div class="r"><span>arcade.dot</span></div></div>
+      <div class="body">
+        <div class="between"><span class="h">Live match</span><span class="chip on">● 2 online</span></div>
+        <div class="between s11 dim"><span>you ✕</span><span>vs</span><span>bob.dot ◯</span></div>
+        <div class="ttt">
+          <div>✕</div><div>◯</div><div></div>
+          <div></div><div>✕</div><div></div>
+          <div>◯</div><div></div><div>✕</div>
+        </div>
+        <div class="box s12 between"><span>your turn</span><span class="mono dim">12s</span></div>
+        <div class="dim s11" style="letter-spacing:.08em">PRESENCE · STATEMENT STORE</div>
+        <div class="box s11 mono dim">&gt; bob.dot joined room<br>&gt; move: ✕ → c3<br>&gt; sync ok</div>
+        <div class="nav"><span class="a">◉ play</span><span>rooms</span><span>rank</span></div>
+      </div>
+    </div></div>
+    <p class="cap"><b>08 · Product: arcade</b><br>Real-time multiplayer over pub/sub. → <code>statement_store</code> · per-product accounts</p>
+  </div>
+
+  <!-- 9 CHAT -->
+  <div class="cell">
+    <div class="phone"><div class="notch"></div><div class="scr"><div class="scan-mini"></div>
+      <div class="sb"><span>09:41</span><div class="r"><span>5G</span><span>▮▮▮</span></div></div>
+      <div class="body">
+        <div class="between"><span class="h">summit-crew</span><span class="chip">⊕ e2e</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:8px;justify-content:flex-end">
+          <div class="box s12" style="align-self:flex-start;max-width:80%"><div class="dim s11">bob.dot</div>booth at hall 2?</div>
+          <div class="box inv s12" style="align-self:flex-end;max-width:80%">on my way ⌁</div>
+          <div class="box s12" style="align-self:flex-start;max-width:80%"><div class="dim s11">cara.dot</div>shared the pass 🎟</div>
+        </div>
+        <div class="box between s12"><span class="dim">message…</span><span>➤</span></div>
+        <p class="dim s11" style="text-align:center">keys: derive_entropy → X25519 · on-device</p>
+        <div class="nav"><span>home</span><span>apps</span><span class="a">◉ chat</span><span>me</span></div>
+      </div>
+    </div></div>
+    <p class="cap"><b>09 · Chat (E2E)</b><br>Group room + on-device encryption. → <code>chat_create_simple_group</code> · <code>derive_entropy</code></p>
+  </div>
+
+  <!-- 10 T3RMINAL -->
+  <div class="cell">
+    <div class="phone"><div class="notch"></div><div class="scr"><div class="scan-mini"></div>
+      <div class="sb"><span>09:41</span><div class="r"><span>t3rminal</span></div></div>
+      <div class="body">
+        <div class="h">Publish site</div>
+        <div class="box mono s11 dim">&gt; build static export … ok<br>&gt; pin to Bulletin … <span style="color:#fff">CID ✓</span><br>&gt; index on-chain …<span class="cursor"></span></div>
+        <div class="box between s12"><span class="dim">domain</span><span><b>ada.dot</b></span></div>
+        <div class="box between s12"><span class="dim">storage</span><span>Bulletin · CIDv1</span></div>
+        <div class="box between s12"><span class="dim">index</span><span>pallet-revive</span></div>
+        <div class="pct"><i style="width:78%"></i></div>
+        <div class="btn solid" style="margin-top:auto">Deploy to ada.dot</div>
+        <p class="dim s11" style="text-align:center">own your site · no server</p>
+      </div>
+    </div></div>
+    <p class="cap"><b>10 · Product: t3rminal</b><br>Publish a site to a <code>.dot</code> domain. → Bulletin storage · on-chain index</p>
+  </div>
+
+</div>
+
+<div class="footer">CONCEPT MOCKUPS · GROUNDED IN paritytech OSS (truapi / product-sdk / festival / arcade / t3rminal) · NOT OFFICIAL DESIGNS · NOT ADVICE</div>
+
+</body>
+</html>
