@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polkadot — A Concept.</title>
+<meta name="description" content="A quiet, cinematic concept of Polkadot's super-app, imagined from open source. TWR.DOT.">
+<style>
+  :root{
+    --bg:#ffffff;--ink:#1d1d1f;--grey:#86868b;--grey2:#a9a9af;--hair:#ededf0;--soft:#f5f5f7;
+    --sf:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --ease:cubic-bezier(.16,.8,.18,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sf);-webkit-font-smoothing:antialiased;font-weight:400;
+       scroll-snap-type:y proximity}
+  ::selection{background:var(--ink);color:#fff}
+
+  /* hairline scroll progress */
+  .prog{position:fixed;top:0;left:0;height:1px;background:var(--ink);width:0;z-index:90;transition:width .2s linear}
+  /* whisper wordmark */
+  .mark{position:fixed;top:22px;left:50%;transform:translateX(-50%);z-index:80;font-size:12px;letter-spacing:.06em;color:var(--grey2);
+        font-weight:500;mix-blend-mode:multiply;transition:opacity .6s}
+  .mark.hide{opacity:0}
+
+  /* full-viewport scenes */
+  .vp{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+      padding:14vh clamp(22px,7vw,60px);scroll-snap-align:center;position:relative}
+  .reveal{opacity:0;transform:translateY(46px) scale(.985);transition:opacity 1.3s var(--ease),transform 1.3s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  .kick{font-size:clamp(12px,1.3vw,15px);color:var(--grey);letter-spacing:.02em;font-weight:500;margin-bottom:26px}
+
+  /* big statements / interludes */
+  .state{font-weight:600;letter-spacing:-.03em;line-height:1.02;font-size:clamp(40px,8vw,118px);max-width:13ch}
+  .state .thin{font-weight:200;color:var(--grey2)}
+  .hero-sub{margin-top:34px;color:var(--grey);font-weight:400;font-size:clamp(17px,2.2vw,25px);max-width:26ch;line-height:1.45}
+
+  .cue{position:absolute;bottom:5vh;left:50%;transform:translateX(-50%);color:var(--grey2);font-size:11px;letter-spacing:.24em;text-transform:uppercase}
+  .cue .a{display:block;font-size:17px;margin-top:8px;animation:bob 2s infinite}
+  @keyframes bob{50%{transform:translateY(8px)}}
+
+  /* a product scene: line, phone (haloed), supporting line */
+  .line{font-weight:600;letter-spacing:-.028em;line-height:1.04;font-size:clamp(30px,5.6vw,72px);max-width:15ch}
+  .line .thin{font-weight:200;color:var(--grey2)}
+  .meta{color:var(--grey);font-weight:400;font-size:clamp(15px,1.7vw,20px);max-width:30ch;margin:22px auto 0;line-height:1.5}
+  .prim{margin-top:18px;font-family:var(--mono);font-size:11px;color:#bcbcc2;letter-spacing:.02em}
+  .prim code{background:var(--soft);color:#8a8a90;padding:.16em .55em;border-radius:6px}
+
+  .stage{margin-top:7vh;position:relative;display:flex;justify-content:center;align-items:center}
+  .stage::before{content:"";position:absolute;width:118%;height:118%;border-radius:50%;
+    background:radial-gradient(closest-side,rgba(0,0,0,.07),rgba(0,0,0,0) 72%);filter:blur(8px);z-index:0}
+
+  /* light phone */
+  .phone{position:relative;z-index:1;width:330px;max-width:82vw;aspect-ratio:9/19.2;background:#fff;border:1px solid #e6e6eb;border-radius:50px;padding:12px;
+         box-shadow:0 2px 6px rgba(0,0,0,.03),0 44px 90px -20px rgba(0,0,0,.22),0 1px 0 #fff inset}
+  .scr{position:relative;height:100%;border-radius:39px;overflow:hidden;background:#fff;display:flex;flex-direction:column;border:1px solid #f3f3f6}
+  .notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:32%;height:20px;background:#fff;border:1px solid #eee;border-radius:0 0 14px 14px;z-index:5}
+  .sb{display:flex;justify-content:space-between;align-items:center;padding:12px 19px 6px;font-size:11px;color:var(--ink);font-weight:600}
+  .sb .r{display:flex;gap:5px;color:var(--grey2)}
+  .bdy{flex:1;min-height:0;overflow:hidden;padding:8px 16px 14px;display:flex;flex-direction:column;gap:12px;text-align:left}
+
+  .h{font-weight:600;font-size:15px;letter-spacing:-.01em}
+  .xl{font-weight:600;font-size:38px;letter-spacing:-.035em;line-height:1}
+  .lg{font-weight:600;font-size:23px;letter-spacing:-.02em;line-height:1.04}
+  .dim{color:var(--grey)}.mono{font-family:var(--mono)}
+  .s11{font-size:11px}.s12{font-size:12px}.s13{font-size:13px}
+  .box{background:var(--soft);border-radius:17px;padding:13px}
+  .inv{background:var(--ink);color:#fff}.inv .dim{color:#a1a1a6}
+  .btn{border-radius:980px;text-align:center;padding:11px;font-weight:500;font-size:13.5px;border:1px solid var(--hair);color:var(--ink)}
+  .btn.solid{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .row{display:flex;gap:8px}.row>*{flex:1}
+  .between{display:flex;justify-content:space-between;align-items:center}
+  .chip{background:var(--soft);border-radius:980px;padding:.3em .72em;font-size:10px;color:var(--grey);font-weight:500}
+  .chip.on{background:var(--ink);color:#fff}
+  .nav{display:flex;justify-content:space-between;border-top:1px solid var(--hair);padding-top:10px;margin-top:auto;font-size:10px;color:var(--grey2)}
+  .nav .a{color:var(--ink);font-weight:600}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .tile{background:var(--soft);border-radius:15px;aspect-ratio:1;display:flex;flex-direction:column;justify-content:space-between;padding:11px}
+  .tile .ic{font-size:19px}
+  .ttt{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;aspect-ratio:1}
+  .ttt div{background:var(--soft);border-radius:11px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:23px}
+  .pct{height:5px;background:var(--soft);border-radius:980px;position:relative;overflow:hidden}.pct i{position:absolute;inset:0 auto 0 0;background:var(--ink)}
+
+  /* rabbit */
+  .rabbit{width:clamp(108px,14vw,162px);height:auto}
+  .rabbit .ear{transform-origin:center bottom;animation:tw 5s ease-in-out infinite}
+  @keyframes tw{0%,93%,100%{transform:rotate(0)}96%{transform:rotate(-6deg)}}
+
+  .disc{max-width:720px;margin:0 auto;padding:8vh 24px 4vh;text-align:center}
+  .disc p{color:var(--grey2);font-size:12px;line-height:1.85}
+  .disc p b{color:var(--grey);font-weight:600}
+  .foot{text-align:center;color:var(--grey2);font-size:11px;letter-spacing:.12em;padding:0 20px 8vh}
+  .foot a{color:var(--ink);text-decoration:none}
+
+  @media (prefers-reduced-motion:reduce){.reveal{transition:none}.cue .a,.rabbit .ear{animation:none}}
+</style>
+</head>
+<body>
+<div class="prog" id="prog"></div>
+<div class="mark" id="mark">Polkadot</div>
+
+<!-- COLD OPEN -->
+<section class="vp">
+  <div class="reveal">
+    <div class="state" style="font-weight:200">Polkadot<span style="font-weight:600">.</span></div>
+    <p class="hero-sub">A concept, imagined — line by line — from open source.</p>
+  </div>
+  <div class="cue">Scroll<span class="a">↓</span></div>
+</section>
+
+<!-- INTERLUDE 1 -->
+<section class="vp">
+  <div class="reveal"><div class="state">We began,<br><span class="thin">as we always do,<br>with nothing.</span></div></div>
+</section>
+
+<!-- HERO STATEMENT -->
+<section class="vp">
+  <div class="reveal">
+    <div class="kick">The brief wrote itself in the repositories.</div>
+    <div class="state">Not what<br>we added.<br><span class="thin">What we were<br>willing to remove.</span></div>
+  </div>
+</section>
+
+<!-- 01 -->
+<section class="vp"><div class="reveal">
+  <div class="line">It begins<br><span class="thin">with a name. Yours.</span></div>
+  <p class="meta">No phrases to keep. No keys to fear. You simply become someone the network knows.</p>
+  <p class="prim"><code>host_request_login</code> → TWR.DOT</p>
+  <div class="stage"><div class="phone"><div class="notch"></div><div class="scr">
+    <div class="sb"><span>9:41</span><div class="r"><span>5G</span><span>􀛧</span></div></div>
+    <div class="bdy" style="justify-content:center;gap:22px">
+      <div class="xl" style="font-size:40px">Polkadot</div>
+      <p class="dim s12">One identity. One balance. Every app.</p>
+      <div style="display:flex;flex-direction:column;gap:9px">
+        <div class="btn solid">Continue with .dot</div>
+        <div class="btn">Continue with Google</div>
+        <div class="btn">Import a wallet</div>
+      </div>
+      <p class="dim s11" style="text-align:center">creates <b style="color:var(--ink)">TWR.DOT</b> · keys never leave the device</p>
+    </div>
+  </div></div></div>
+</div></section>
+
+<!-- 02 -->
+<section class="vp"><div class="reveal">
+  <div class="line">Everything you hold,<br><span class="thin">on a single, quiet surface.</span></div>
+  <p class="meta">One number. The chain — and all of its noise — simply recede from view.</p>
+  <p class="prim"><code>host_payment_balance_subscribe</code></p>
+  <div class="stage"><div class="phone"><div class="notch"></div><div class="scr">
+    <div class="sb"><span>9:41</span><div class="r"><span>5G</span><span>􀛧</span></div></div>
+    <div class="bdy">
+      <div class="between"><span class="h">TWR.DOT</span><span class="chip on">connected</span></div>
+      <div class="box"><div class="dim s11">Balance</div><div class="xl">1,240.50</div><div class="dim s11">pay fees in any asset</div></div>
+      <div class="row"><div class="btn solid">Pay</div><div class="btn">Top up</div><div class="btn">Scan</div></div>
+      <div class="dim s11">My apps</div>
+      <div class="grid2">
+        <div class="tile"><span class="ic">◳</span><span class="s11">festival</span></div>
+        <div class="tile"><span class="ic">▷</span><span class="s11">arcade</span></div>
+        <div class="tile"><span class="ic">≡</span><span class="s11">survey</span></div>
+        <div class="tile inv"><span class="ic">＋</span><span class="s11">store</span></div>
+      </div>
+      <div class="nav"><span class="a">Home</span><span>Apps</span><span>Chat</span><span>Me</span></div>
+    </div>
+  </div></div></div>
+</div></section>
+
+<!-- 03 -->
+<section class="vp"><div class="reveal">
+  <div class="line">Adding —<br><span class="thin">without the thought of adding.</span></div>
+  <p class="meta">Any asset becomes the right one. The exchange happens somewhere you never have to look.</p>
+  <p class="prim"><code>host_payment_top_up</code></p>
+  <div class="stage"><div class="phone"><div class="notch"></div><div class="scr">
+    <div class="sb"><span>9:41</span><div class="r"><span>5G</span><span>􀛧</span></div></div>
+    <div class="bdy">
+      <div class="between"><span class="h">Top up</span><span class="dim">✕</span></div>
+      <div class="box"><div class="dim s11">Add to balance</div><div class="lg">+ 500.00</div></div>
+      <div class="row"><span class="chip on">100</span><span class="chip">250</span><span class="chip">500</span><span class="chip">1k</span></div>
+      <div class="dim s11">Source</div>
+      <div class="box between s12"><span>DOT · Asset Hub</span><span class="dim">⌄</span></div>
+      <div class="box between s12"><span>USDC → auto-swap</span><span class="dim">⌄</span></div>
+      <div class="btn solid" style="margin-top:auto">Confirm</div>
+      <p class="dim s11" style="text-align:center">credits land in TWR.DOT</p>
+    </div>
+  </div></div></div>
+</div></section>
+
+<!-- INTERLUDE 2 -->
+<section class="vp">
+  <div class="reveal"><div class="state">The most advanced<br>technology,<br><span class="thin">hidden completely.</span></div></div>
+</section>
+
+<!-- 04 -->
+<section class="vp"><div class="reveal">
+  <div class="line">You hold it near.<br><span class="thin">And it is simply done.</span></div>
+  <p class="meta">A payment that feels like almost nothing — and is confirmed with a single glance.</p>
+  <p class="prim"><code>host_payment_request</code> · NFC · Biometrics</p>
+  <div class="stage"><div class="phone"><div class="notch"></div><div class="scr">
+    <div class="sb"><span>9:41</span><div class="r"><span>NFC</span><span>􀛧</span></div></div>
+    <div class="bdy">
+      <div class="between"><span class="h">Pay</span><span class="dim">✕</span></div>
+      <div class="box"><div class="dim s11">From</div><div class="s12">TWR.DOT</div><div class="dim s11" style="margin-top:8px">To</div><div class="lg">café-luma.dot</div><div class="dim s11">merchant · verified</div></div>
+      <div class="xl" style="text-align:center;margin:4px 0">42.00</div>
+      <div class="box inv" style="text-align:center"><div class="s13">Hold near reader</div></div>
+      <div class="btn solid">Confirm with Face ID</div>
+      <p class="dim s11 mono" style="text-align:center">PaymentId · processing…</p>
+    </div>
+  </div></div></div>
+</div></section>
+
+<!-- 05 -->
+<section class="vp"><div class="reveal">
+  <div class="line">Nothing happens,<br><span class="thin">until you allow it.</span></div>
+  <p class="meta">Permission, asked once, in plain language. An app is given only what you grant — never you.</p>
+  <p class="prim"><code>host_device_permission</code></p>
+  <div class="stage"><div class="phone"><div class="notch"></div><div class="scr">
+    <div class="sb"><span>9:41</span><div class="r"><span>5G</span><span>􀛧</span></div></div>
+    <div class="bdy" style="justify-content:flex-end;gap:0">
+      <div style="opacity:.4;flex:1;display:flex;flex-direction:column;gap:10px;padding-top:8px"><div class="h">festival.dot</div><div class="box">&nbsp;</div><div class="box">&nbsp;</div></div>
+      <div class="box" style="text-align:center;margin:0 -4px -4px">
+        <div class="lg">“festival.dot”<br>would like NFC</div>
+        <p class="s12 dim" style="margin:10px 0">A scoped account — never your full TWR.DOT wallet.</p>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div class="btn solid">Allow always</div>
+          <div class="btn">This time only</div>
+          <div class="btn">Never</div>
+        </div>
+      </div>
+    </div>
+  </div></div></div>
+</div></section>
+
+<!-- 06 -->
+<section class="vp"><div class="reveal">
+  <div class="line">A thousand apps.<br><span class="thin">A single way in.</span></div>
+  <p class="meta">Each one small, sandboxed, entirely itself. Some, before long, written by machines.</p>
+  <p class="prim"><code>product-sdk</code></p>
+  <div class="stage"><div class="phone"><div class="notch"></div><div class="scr">
+    <div class="sb"><span>9:41</span><div class="r"><span>5G</span><span>􀛧</span></div></div>
+    <div class="bdy">
+      <div class="h">Products</div>
+      <div class="box between s12"><span class="dim">Search .dot apps</span><span class="dim">⌕</span></div>
+      <div class="row"><span class="chip on">All</span><span class="chip">Pay</span><span class="chip">Social</span><span class="chip">Play</span></div>
+      <div class="grid2">
+        <div class="tile"><span class="ic">◳</span><div class="s11">festival<br><span class="dim">tickets</span></div></div>
+        <div class="tile"><span class="ic">▷</span><div class="s11">arcade<br><span class="dim">multiplayer</span></div></div>
+        <div class="tile"><span class="ic">≡</span><div class="s11">survey<br><span class="dim">governance</span></div></div>
+        <div class="tile"><span class="ic">⌨</span><div class="s11">t3rminal<br><span class="dim">publish</span></div></div>
+        <div class="tile"><span class="ic">✉</span><div class="s11">chat<br><span class="dim">e2e</span></div></div>
+        <div class="tile inv"><span class="ic">∞</span><div class="s11">agent-built<br><span class="dim">new</span></div></div>
+      </div>
+      <div class="nav"><span>Home</span><span class="a">Apps</span><span>Chat</span><span>Me</span></div>
+    </div>
+  </div></div></div>
+</div></section>
+
+<!-- 07 -->
+<section class="vp"><div class="reveal">
+  <div class="line">A ticket<br><span class="thin">that could only ever be yours.</span></div>
+  <p class="meta">It cannot be sold, or copied, or lost. It is, quite simply, a fact about you.</p>
+  <p class="prim"><code>NonTransferableERC721</code> · Bulletin</p>
+  <div class="stage"><div class="phone"><div class="notch"></div><div class="scr">
+    <div class="sb"><span>9:41</span><div class="r"><span>festival.dot</span></div></div>
+    <div class="bdy">
+      <div class="h">My pass</div>
+      <div class="box inv" style="text-align:center"><div class="dim s11">Soulbound</div><div class="lg" style="margin:6px 0">Web3 Summit</div><div class="s11">TWR.DOT</div>
+        <div style="height:26px;margin-top:10px;border-radius:7px;background:repeating-linear-gradient(90deg,#fff 0,#fff 3px,#1d1d1f 3px,#1d1d1f 5px)"></div></div>
+      <div class="dim s11">POAPs · 3 collected</div>
+      <div class="row">
+        <div class="tile" style="aspect-ratio:1"><span class="ic">◔</span><span class="s11">Day 1</span></div>
+        <div class="tile" style="aspect-ratio:1"><span class="ic">◑</span><span class="s11">Keynote</span></div>
+        <div class="tile" style="aspect-ratio:1"><span class="ic">✦</span><span class="s11">After</span></div>
+      </div>
+      <div class="btn">Check in via NFC</div>
+      <div class="nav"><span class="a">Pass</span><span>Agenda</span><span>Map</span></div>
+    </div>
+  </div></div></div>
+</div></section>
+
+<!-- 08 -->
+<section class="vp"><div class="reveal">
+  <div class="line">Two people. One moment.<br><span class="thin">No distance between them.</span></div>
+  <p class="meta">Presence, shared the instant it happens — carried by the chain itself.</p>
+  <p class="prim"><code>statement_store</code></p>
+  <div class="stage"><div class="phone"><div class="notch"></div><div class="scr">
+    <div class="sb"><span>9:41</span><div class="r"><span>arcade.dot</span></div></div>
+    <div class="bdy">
+      <div class="between"><span class="h">Live match</span><span class="chip on">2 online</span></div>
+      <div class="between s11 dim"><span>TWR ✕</span><span>vs</span><span>bob.dot ◯</span></div>
+      <div class="ttt"><div>✕</div><div>◯</div><div></div><div></div><div>✕</div><div></div><div>◯</div><div></div><div>✕</div></div>
+      <div class="box between s12"><span>Your turn</span><span class="dim mono">12s</span></div>
+      <div class="box s11 mono dim">bob.dot joined · move ✕→c3 · synced</div>
+      <div class="nav"><span class="a">Play</span><span>Rooms</span><span>Rank</span></div>
+    </div>
+  </div></div></div>
+</div></section>
+
+<!-- 09 -->
+<section class="vp"><div class="reveal">
+  <div class="line">Sealed in your hand,<br><span class="thin">before a word can leave it.</span></div>
+  <p class="meta">The key is made on the device, for this alone. No one else can be in the room.</p>
+  <p class="prim"><code>chat_create_simple_group</code> · <code>derive_entropy → X25519</code></p>
+  <div class="stage"><div class="phone"><div class="notch"></div><div class="scr">
+    <div class="sb"><span>9:41</span><div class="r"><span>5G</span><span>􀛧</span></div></div>
+    <div class="bdy">
+      <div class="between"><span class="h">summit-crew</span><span class="chip">e2e</span></div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:8px;justify-content:flex-end">
+        <div class="box s12" style="align-self:flex-start;max-width:80%"><div class="dim s11">bob.dot</div>booth at hall 2?</div>
+        <div class="box inv s12" style="align-self:flex-end;max-width:80%"><div class="s11" style="color:#a1a1a6">TWR.DOT</div>on my way</div>
+        <div class="box s12" style="align-self:flex-start;max-width:80%"><div class="dim s11">cara.dot</div>shared the pass</div>
+      </div>
+      <div class="box between s12"><span class="dim">Message</span><span class="dim">➤</span></div>
+      <div class="nav"><span>Home</span><span>Apps</span><span class="a">Chat</span><span>Me</span></div>
+    </div>
+  </div></div></div>
+</div></section>
+
+<!-- 10 -->
+<section class="vp"><div class="reveal">
+  <div class="line">You no longer visit the web.<br><span class="thin">You hold it.</span></div>
+  <p class="meta">A whole site, with no server beneath it — kept by the chain, and found by a name.</p>
+  <p class="prim">Bulletin · CIDv1 · on-chain index</p>
+  <div class="stage"><div class="phone"><div class="notch"></div><div class="scr">
+    <div class="sb"><span>9:41</span><div class="r"><span>t3rminal</span></div></div>
+    <div class="bdy">
+      <div class="h">Publish site</div>
+      <div class="box mono s11 dim">build … ok<br>pin to Bulletin … CID ✓<br>index on-chain …</div>
+      <div class="box between s12"><span class="dim">Domain</span><span><b>twr.dot</b></span></div>
+      <div class="box between s12"><span class="dim">Storage</span><span>Bulletin · CIDv1</span></div>
+      <div class="pct"><i style="width:78%"></i></div>
+      <div class="btn solid" style="margin-top:auto">Deploy to twr.dot</div>
+      <p class="dim s11" style="text-align:center">own your site · no server</p>
+    </div>
+  </div></div></div>
+</div></section>
+
+<!-- CLOSING INTERLUDE -->
+<section class="vp">
+  <div class="reveal"><div class="state">And the detail<br>we considered most<br><span class="thin">is the one you'll<br>never notice.</span></div></div>
+</section>
+
+<!-- RABBIT -->
+<section class="vp"><div class="reveal">
+  <svg class="rabbit" viewBox="0 0 220 240" role="img" aria-label="white rabbit">
+    <g fill="none" stroke="#1d1d1f" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+      <!-- continuous sitting-rabbit silhouette (facing left) -->
+      <path d="M38,151 C34,140 44,118 66,104 C58,74 60,44 70,30 C80,46 84,76 86,100 C88,86 92,70 104,34 C116,52 114,84 110,104 C140,100 172,120 184,150 C193,172 188,194 174,202 C150,214 120,214 100,214 C82,214 64,212 56,198 C48,186 44,168 38,151 Z"/>
+      <!-- inner ears -->
+      <path d="M70,96 C66,76 68,56 72,42" stroke-width="2.2" opacity=".45"/>
+      <path d="M102,48 C100,68 102,86 106,100" stroke-width="2.2" opacity=".45"/>
+      <!-- fluffy tail -->
+      <circle cx="176" cy="182" r="11"/>
+    </g>
+    <!-- eye + nose -->
+    <circle cx="61" cy="121" r="3.3" fill="#1d1d1f"/>
+    <circle cx="37" cy="151" r="2.6" fill="#1d1d1f"/>
+  </svg>
+  <div class="state" style="font-size:clamp(28px,5vw,64px);margin-top:40px">We didn't add<br>the white rabbit.<br><span class="thin">It was always there.</span></div>
+  <p class="hero-sub" style="letter-spacing:.18em;text-transform:lowercase;font-size:14px;margin-top:26px">follow the white rabbit</p>
+</div></section>
+
+<div class="disc">
+  <p><b>Concept mock-ups.</b> Hand-built from publicly available open-source material in the <b>paritytech</b> GitHub organization (truapi, product-sdk, festival, onchain-arcade, t3rminal). These are <b>not real screenshots</b>, <b>not official Parity / Polkadot / Web3 Foundation designs</b>, and not affiliated with or endorsed by them. Names, balances and the <b>TWR.DOT</b> identity are <b>fictional</b>. The repositories are <b>experimental, testnet-only and explicitly unaudited</b>. Trademarks belong to their owners. Not financial, legal or security advice.</p>
+</div>
+<div class="foot">Polkadot — a concept · TWR.DOT · imagined from <a href="https://github.com/paritytech" target="_blank" rel="noopener">github.com/paritytech</a></div>
+
+<script>
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.25});
+  document.querySelectorAll('.reveal').forEach(s=>io.observe(s));
+  const prog=document.getElementById('prog'),mark=document.getElementById('mark');
+  addEventListener('scroll',()=>{
+    const h=document.documentElement;const p=h.scrollTop/(h.scrollHeight-h.clientHeight);
+    prog.style.width=(p*100)+'%';
+    mark.classList.toggle('hide',h.scrollTop>120&&p<.985);
+  },{passive:true});
+</script>
+</body>
+</html>
