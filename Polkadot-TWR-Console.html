@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TWR.DOT — the working mockup (Asset Hub Paseo, live)</title>
+<style>
+  :root{
+    --bg:#000;--fg:#fff;--dim:#8e8e96;--line:rgba(255,255,255,.16);--soft:#0b0b0e;
+    --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+    --disp:"Arial Black","Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{background:#000;color:#fff;font-family:var(--mono);-webkit-font-smoothing:antialiased;overflow:hidden}
+  ::selection{background:#fff;color:#000}
+  #stars{position:fixed;inset:0;z-index:0}
+  .fx{position:fixed;inset:0;pointer-events:none;z-index:60}
+  .fx.scan{background:repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0,rgba(255,255,255,.03) 1px,transparent 1px,transparent 3px);mix-blend-mode:overlay;opacity:.35}
+  .fx.vig{background:radial-gradient(ellipse at center,transparent 46%,rgba(0,0,0,.92) 100%)}
+
+  /* page chrome around the phone */
+  .stage{position:relative;z-index:10;height:100vh;display:flex;align-items:center;justify-content:center;gap:clamp(20px,5vw,70px);padding:18px}
+  .aside{max-width:300px}
+  .aside .tag{font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--dim)}
+  .aside .tag::before{content:"▸ ";color:#fff}
+  .aside h1{font-family:var(--disp);font-weight:900;text-transform:uppercase;letter-spacing:-.02em;line-height:.95;font-size:clamp(26px,3.4vw,44px);margin:.3em 0}
+  .aside p{color:var(--dim);font-size:12.5px;line-height:1.7}
+  .aside b{color:#fff}
+  .aside .foot{margin-top:18px;font-size:10px;color:#55555c;line-height:1.7}
+  .aside .foot a{color:#9a9aa2}
+  @media (max-width:900px){.aside{display:none}}
+
+  /* ── the phone ── */
+  .phone{position:relative;height:min(92vh,860px);aspect-ratio:9/19.2;background:#000;border:2px solid #fff;border-radius:54px;padding:12px;
+         box-shadow:0 0 0 1px #000,0 50px 120px rgba(0,0,0,.8),0 0 80px rgba(255,255,255,.10)}
+  .scr{position:relative;height:100%;border-radius:42px;overflow:hidden;background:#050507;border:1px solid rgba(255,255,255,.12);display:flex;flex-direction:column}
+  .notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:34%;height:22px;background:#000;border:1px solid rgba(255,255,255,.14);border-radius:0 0 16px 16px;z-index:8}
+  @media (max-width:560px){
+    body{overflow:auto}
+    .stage{padding:0}
+    .phone{height:100dvh;aspect-ratio:auto;width:100vw;border:none;border-radius:0;padding:0;box-shadow:none}
+    .scr{border-radius:0;border:none}
+    .notch{display:none}
+  }
+
+  /* status bar */
+  .sb{display:flex;justify-content:space-between;align-items:center;padding:14px 22px 8px;font-size:11px;font-weight:600;letter-spacing:.06em}
+  .sb .r{display:flex;gap:9px;align-items:center}
+  .led{width:7px;height:7px;border-radius:50%;background:#3a3a40;display:inline-block}
+  .led.on{background:#fff;box-shadow:0 0 8px #fff}
+  .led.err{background:#fff;animation:blink .7s steps(1) infinite}
+  @keyframes blink{50%{opacity:.15}}
+
+  /* app header */
+  .head{padding:8px 20px 12px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .head .wm{font-family:var(--disp);font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--dim)}
+  .head .wm b{background:#fff;color:#000;padding:0 .32em;border-radius:6px;margin-left:.2em}
+  .balhero{display:flex;align-items:baseline;gap:8px;margin-top:8px}
+  .balhero .v{font-family:var(--disp);font-size:clamp(30px,4.6vh,40px);letter-spacing:-.02em;line-height:1}
+  .balhero .u{font-family:var(--disp);color:var(--dim);font-size:15px}
+  .head .who{font-size:10.5px;color:var(--dim);margin-top:5px;letter-spacing:.06em}
+  .head .who b{color:#fff}
+
+  /* tabs */
+  .tabs{flex:1;min-height:0;position:relative}
+  .tab{position:absolute;inset:0;overflow-y:auto;padding:16px 18px 18px;display:none;scrollbar-width:thin}
+  .tab.on{display:block;animation:tin .28s ease}
+  @keyframes tin{from{opacity:0;transform:translateY(10px)}to{opacity:1}}
+  .tab::-webkit-scrollbar{width:4px}.tab::-webkit-scrollbar-thumb{background:#2a2a30;border-radius:4px}
+
+  .sec{background:var(--soft);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:16px;margin-bottom:14px}
+  .sec h3{font-family:var(--disp);text-transform:uppercase;font-size:12.5px;letter-spacing:.04em;margin-bottom:10px}
+  .sec h3 span{color:var(--dim);font-size:9.5px;letter-spacing:.1em}
+  .lbl{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);margin:10px 0 6px}
+  input,select,textarea{background:#000;border:1px solid var(--line);color:#fff;font-family:var(--mono);font-size:13px;padding:11px 14px;width:100%;outline:none;border-radius:14px}
+  textarea{resize:none;min-height:64px}
+  input:focus,select:focus,textarea:focus{border-color:#fff}
+  button{background:#fff;color:#000;border:1px solid #fff;font-family:var(--disp);text-transform:uppercase;font-size:12px;letter-spacing:.05em;
+         padding:11px 18px;cursor:pointer;transition:.15s;border-radius:999px;width:100%}
+  button:hover{background:transparent;color:#fff}
+  button:disabled{opacity:.35;cursor:not-allowed}
+  button.ghosted{background:transparent;color:#fff}
+  .mt{margin-top:10px}
+  .row2{display:flex;gap:8px}.row2>*{flex:1}
+  .kv div{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dashed rgba(255,255,255,.08);padding:.5em 0;font-size:12px}
+  .kv span{color:var(--dim)}.kv b{text-align:right;word-break:break-all}
+  .list{list-style:none}
+  .list li{display:flex;justify-content:space-between;gap:8px;font-size:11.5px;padding:.5em 0;border-bottom:1px dashed rgba(255,255,255,.08)}
+  .list b{white-space:nowrap}.list span{color:var(--dim);text-align:right;word-break:break-all}
+  .blocks{list-style:none}
+  .blocks li{display:flex;justify-content:space-between;font-size:11.5px;padding:.4em 0;border-bottom:1px dashed rgba(255,255,255,.08);animation:pop .4s ease}
+  @keyframes pop{from{opacity:0;transform:translateY(-5px)}to{opacity:1}}
+  .blocks b{color:#fff}.blocks span{color:var(--dim)}
+  .out{margin-top:10px;font-size:11px;line-height:1.65;color:#cfcfd4;word-break:break-all;border:1px solid var(--line);border-left:3px solid #fff;
+       border-radius:12px;padding:9px 12px;background:rgba(255,255,255,.04);display:none}
+  .out.show{display:block}
+  .out b{color:#fff}.out a{color:#fff;text-decoration:underline}
+  .hint{font-size:10.5px;color:var(--dim);line-height:1.6}
+
+  /* bottom nav */
+  .nav{display:flex;border-top:1px solid rgba(255,255,255,.1);background:#000;padding:8px 8px calc(10px + env(safe-area-inset-bottom))}
+  .nav button{background:none;border:none;color:var(--dim);font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+              display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0;border-radius:14px;width:auto;flex:1}
+  .nav button .ic{font-size:17px;line-height:1}
+  .nav button.on{color:#fff;background:rgba(255,255,255,.07)}
+  .nav button:hover{background:rgba(255,255,255,.07);color:#fff}
+
+  .homebar{width:36%;height:4px;border-radius:4px;background:rgba(255,255,255,.3);margin:6px auto 4px}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+<div class="fx scan"></div><div class="fx vig"></div>
+
+<div class="stage">
+  <div class="aside">
+    <span class="tag">working mockup · live chain</span>
+    <h1>The app,<br>inside the<br>mockup.</h1>
+    <p>This phone is not a picture. It's a <b>working dApp</b> on <b>Asset Hub Paseo</b> + <b>People chain</b> (testnets) — the rails Parity's "products" target. Real blocks, balances, assets, NFTs, identities, transfers.</p>
+    <div class="foot">testnet · no real value · not affiliated with Parity · faucet: <a href="https://faucet.polkadot.io/?parachain=1000" target="_blank" rel="noopener">faucet.polkadot.io</a></div>
+  </div>
+
+  <div class="phone"><div class="scr">
+    <div class="notch"></div>
+
+    <div class="sb">
+      <span id="clock">09:41</span>
+      <div class="r">
+        <span class="led" id="ledNet" title="asset hub"></span>
+        <span class="led" id="ledPpl" title="people chain"></span>
+        <span class="led" id="ledExt" title="wallet"></span>
+      </div>
+    </div>
+
+    <div class="head">
+      <div class="wm">TWR.DOT <b>LIVE</b></div>
+      <div class="balhero"><div class="v" id="balHero">—</div><div class="u" id="balUnit">PAS</div></div>
+      <div class="who" id="whoHero">connect a wallet, or look up any account ↓</div>
+    </div>
+
+    <div class="tabs">
+
+      <!-- HOME -->
+      <div class="tab on" id="tab-home">
+        <div class="sec">
+          <h3>Account <span>// balance + people-chain identity</span></h3>
+          <input id="who" placeholder="any SS58 address…" spellcheck="false">
+          <div class="mt"><button id="lookup">Query chain</button></div>
+          <div class="kv mt">
+            <div><span>free</span><b id="bFree">—</b></div>
+            <div><span>reserved</span><b id="bRes">—</b></div>
+            <div><span>nonce</span><b id="bNonce">—</b></div>
+            <div><span>identity</span><b id="bIdent">—</b></div>
+          </div>
+          <div class="out" id="balOut"></div>
+        </div>
+        <div class="sec">
+          <h3>Network <span>// live</span></h3>
+          <div class="kv">
+            <div><span>chain</span><b id="chain">—</b></div>
+            <div><span>finalized</span><b id="head">—</b></div>
+            <div><span>endpoint</span><b id="endpoint">—</b></div>
+          </div>
+          <ul class="blocks" id="blocks"></ul>
+        </div>
+      </div>
+
+      <!-- PAY -->
+      <div class="tab" id="tab-pay">
+        <div class="sec">
+          <h3>Wallet <span>// non-custodial</span></h3>
+          <button class="ghosted" id="connect">⛓ Connect wallet</button>
+          <div class="lbl">From</div>
+          <select id="from"><option>no wallet connected</option></select>
+        </div>
+        <div class="sec">
+          <h3>Send <span>// real PAS transfer</span></h3>
+          <div class="lbl">To</div>
+          <input id="dest" placeholder="recipient SS58 address" spellcheck="false">
+          <div class="lbl">Amount (PAS)</div>
+          <input id="amt" placeholder="0.1" inputmode="decimal">
+          <div class="mt"><button id="send" disabled>Sign &amp; send</button></div>
+          <div class="out" id="txOut"></div>
+        </div>
+      </div>
+
+      <!-- ASSETS -->
+      <div class="tab" id="tab-assets">
+        <div class="sec">
+          <h3>Assets <span>// pallet-assets registry</span></h3>
+          <p class="hint">The rails the products' stablecoins ride on — read from storage:</p>
+          <ul class="list" id="assets"><li><span>loading…</span></li></ul>
+        </div>
+        <div class="sec">
+          <h3>Collectibles <span>// pallet-nfts</span></h3>
+          <div class="kv"><div><span>collections on chain</span><b id="nftCount">—</b></div></div>
+          <ul class="list" id="nfts"><li><span>loading…</span></li></ul>
+        </div>
+      </div>
+
+      <!-- POST -->
+      <div class="tab" id="tab-post">
+        <div class="sec">
+          <h3>Statement <span>// system.remark</span></h3>
+          <p class="hint">Write something into a real block. Forever.</p>
+          <div class="lbl">Message</div>
+          <textarea id="note" placeholder="gm. follow the white rabbit." maxlength="240"></textarea>
+          <div class="mt"><button id="post" disabled>Sign &amp; broadcast</button></div>
+          <div class="out" id="noteOut"></div>
+        </div>
+        <div class="sec">
+          <h3>About <span>// scope &amp; honesty</span></h3>
+          <p class="hint">A real dApp on <b style="color:#fff">Paseo testnets</b>. Not a TrUAPI product — the Host isn't public yet, so signing uses your browser extension (Talisman / polkadot.js). Testnet only, no real value, unaffiliated with Parity.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="nav">
+      <button class="on" data-tab="home"><span class="ic">◉</span>home</button>
+      <button data-tab="pay"><span class="ic">⇄</span>pay</button>
+      <button data-tab="assets"><span class="ic">▦</span>assets</button>
+      <button data-tab="post"><span class="ic">✎</span>post</button>
+    </div>
+    <div class="homebar"></div>
+  </div></div>
+</div>
+
+<script type="module">
+/* polkadot-js via ESM — api pinned to 15.10.2 (16.5.6 has a storage-query regression) */
+import { ApiPromise, WsProvider } from 'https://esm.sh/@polkadot/api@15.10.2';
+import { web3Enable, web3Accounts, web3FromSource } from 'https://esm.sh/@polkadot/extension-dapp@0.59.2';
+
+/* starfield */
+const cv=document.getElementById('stars'),cx=cv.getContext('2d');let W,H;
+function rs(){W=cv.width=innerWidth;H=cv.height=innerHeight}rs();addEventListener('resize',rs);
+const ST=[...Array(170)].map(()=>({x:Math.random(),y:Math.random(),s:Math.random()*1.6+.4,tw:1+Math.random()*3,ph:Math.random()*7}));
+let T=0;(function loop(){T+=1/60;cx.clearRect(0,0,W,H);
+  for(const s of ST){cx.fillStyle=`rgba(255,255,255,${.35*(.6+.4*Math.sin(T*s.tw+s.ph))})`;cx.fillRect(s.x*W,s.y*H,s.s,s.s)}
+  requestAnimationFrame(loop)})();
+
+/* clock */
+const clock=document.getElementById('clock');
+setInterval(()=>{const d=new Date();clock.textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')},1000);
+
+/* tabs */
+const $=id=>document.getElementById(id);
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('on',x===b));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.id==='tab-'+b.dataset.tab));
+});
+
+/* ── chain logic ── */
+const ENDPOINTS=[
+  'wss://asset-hub-paseo-rpc.dwellir.com',
+  'wss://sys.ibp.network/asset-hub-paseo',
+  'wss://asset-hub-paseo.dotters.network',
+  'wss://rpc-asset-hub-paseo.luckyfriday.io',
+];
+const PEOPLE_ENDPOINTS=[
+  'wss://sys.ibp.network/people-paseo',
+  'wss://people-paseo.dotters.network',
+  'wss://people-paseo.rpc.amforc.com',
+];
+let api,apiPeople,decimals=10,symbol='PAS',extAccounts=[],heroUnsub=null;
+
+function fmt(planck,dec=decimals){
+  const n=BigInt(planck.toString());const base=10n**BigInt(dec);
+  return `${(n/base).toLocaleString('en')}.${(n%base).toString().padStart(dec,'0').slice(0,4)}`;
+}
+function compact(planck,dec){
+  const n=Number(BigInt(planck.toString())/10n**BigInt(Math.max(0,dec-2)))/100;
+  return n>=1e9?(n/1e9).toFixed(2)+'B':n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(1)+'k':n.toFixed(2);
+}
+function show(el,html){el.innerHTML=html;el.classList.add('show')}
+const short=a=>a.slice(0,7)+'…'+a.slice(-5);
+
+/* hero balance follows an account live */
+async function watchHero(address,label){
+  if(heroUnsub){heroUnsub();heroUnsub=null}
+  $('whoHero').innerHTML=`<b>${label}</b> · ${short(address)}`;
+  heroUnsub=await api.query.system.account(address,({data})=>{$('balHero').textContent=fmt(data.free)});
+}
+
+/* asset hub */
+(async()=>{
+  try{
+    const provider=new WsProvider(ENDPOINTS,2500);
+    provider.on('connected',()=>{$('endpoint').textContent=(provider.endpoint||'').replace('wss://','').slice(0,26)});
+    api=await ApiPromise.create({provider});
+    decimals=api.registry.chainDecimals[0]??10;symbol=api.registry.chainTokens[0]??'PAS';
+    $('chain').textContent=(await api.rpc.system.chain()).toString();
+    $('balUnit').textContent=symbol;
+    $('ledNet').className='led on';
+    const list=$('blocks');
+    await api.rpc.chain.subscribeFinalizedHeads(h=>{
+      $('head').textContent='#'+h.number.toNumber().toLocaleString('en');
+      const li=document.createElement('li');
+      li.innerHTML=`<b>#${h.number.toNumber().toLocaleString('en')}</b><span>${h.hash.toHex().slice(0,14)}…</span>`;
+      list.prepend(li);while(list.children.length>3)list.lastChild.remove();
+    });
+    loadAssets();loadNfts();
+  }catch(e){$('ledNet').className='led err';show($('balOut'),`<b>Connection failed.</b> ${e.message||e}`)}
+})();
+
+/* people chain */
+(async()=>{
+  try{apiPeople=await ApiPromise.create({provider:new WsProvider(PEOPLE_ENDPOINTS,2500)});$('ledPpl').className='led on'}
+  catch(e){$('ledPpl').className='led err'}
+})();
+
+/* assets */
+async function loadAssets(){
+  const ul=$('assets');
+  try{
+    const metas=await api.query.assets.metadata.entriesPaged({args:[],pageSize:12});
+    if(!metas.length){ul.innerHTML='<li><span>no assets found</span></li>';return}
+    const rows=await Promise.all(metas.slice(0,8).map(async([key,m])=>{
+      const id=key.args[0].toString();let supply='—';
+      try{const a=await api.query.assets.asset(key.args[0]);if(a.isSome)supply=compact(a.unwrap().supply,m.decimals.toNumber())}catch{}
+      const sym=new TextDecoder().decode(m.symbol.toU8a(true))||'?';
+      return `<li><b>#${id} ${sym}</b><span>${m.decimals.toNumber()} dec · ${supply}</span></li>`;
+    }));
+    ul.innerHTML=rows.join('');
+  }catch(e){ul.innerHTML=`<li><span>query failed: ${(e.message||e).toString().slice(0,50)}</span></li>`}
+}
+
+/* nfts */
+async function loadNfts(){
+  const ul=$('nfts');
+  try{
+    const cols=await api.query.nfts.collection.entriesPaged({args:[],pageSize:30});
+    $('nftCount').textContent=cols.length+(cols.length===30?'+':'');
+    if(!cols.length){ul.innerHTML='<li><span>no collections yet</span></li>';return}
+    ul.innerHTML=cols.slice(0,6).map(([key,v])=>{
+      const id=key.args[0].toString();const d=v.unwrapOr(null);
+      return `<li><b>#${id}</b><span>${d?`${d.items.toNumber()} items · ${short(d.owner.toString())}`:'—'}</span></li>`;
+    }).join('');
+  }catch(e){ul.innerHTML=`<li><span>query failed: ${(e.message||e).toString().slice(0,50)}</span></li>`}
+}
+
+/* lookup: balance + identity */
+$('lookup').onclick=async()=>{
+  const a=$('who').value.trim();if(!api||!a)return;
+  try{
+    const{data,nonce}=await api.query.system.account(a);
+    $('bFree').textContent=fmt(data.free)+' '+symbol;
+    $('bRes').textContent=fmt(data.reserved)+' '+symbol;
+    $('bNonce').textContent=nonce.toString();
+    $('balOut').classList.remove('show');
+    watchHero(a,'viewing');
+  }catch(e){show($('balOut'),`<b>Invalid address or query error:</b> ${e.message||e}`);return}
+  $('bIdent').textContent='…';
+  try{
+    if(!apiPeople)throw 0;
+    const opt=await apiPeople.query.identity.identityOf(a);
+    if(opt.isSome){
+      const reg=opt.unwrap();const info=reg.info??reg[0]?.info;const disp=info?.display;
+      $('bIdent').textContent=disp&&disp.isRaw?new TextDecoder().decode(disp.asRaw.toU8a(true)):'set';
+    }else $('bIdent').textContent='none';
+  }catch{$('bIdent').textContent='n/a'}
+};
+$('who').addEventListener('keydown',e=>{if(e.key==='Enter')$('lookup').click()});
+
+/* wallet */
+$('connect').onclick=async()=>{
+  try{
+    const exts=await web3Enable('TWR.DOT');
+    if(!exts.length){$('ledExt').className='led err';
+      show($('txOut'),`<b>No wallet extension found.</b> Install <b>Talisman</b> or <b>polkadot.js extension</b> and reload (needs http/https).`);return}
+    extAccounts=await web3Accounts();
+    const sel=$('from');sel.innerHTML='';
+    extAccounts.forEach((a,i)=>{const o=document.createElement('option');o.value=i;
+      o.textContent=`${a.meta.name||'account'} · ${short(a.address)}`;sel.appendChild(o)});
+    $('ledExt').className='led on';
+    $('send').disabled=$('post').disabled=!extAccounts.length;
+    if(extAccounts.length)watchHero(extAccounts[0].address,extAccounts[0].meta.name||'me');
+  }catch(e){show($('txOut'),`<b>Wallet error:</b> ${e.message||e}`)}
+};
+$('from').onchange=()=>{const a=extAccounts[$('from').value|0];if(a)watchHero(a.address,a.meta.name||'me')};
+
+/* signed tx runner */
+async function runTx(tx,outEl,doneLabel){
+  const acc=extAccounts[$('from').value|0];
+  const injector=await web3FromSource(acc.meta.source);
+  show(outEl,`<b>Signing…</b> approve in your wallet.`);
+  const unsub=await tx.signAndSend(acc.address,{signer:injector.signer},({status,txHash,dispatchError})=>{
+    if(dispatchError){
+      let msg=dispatchError.toString();
+      if(dispatchError.isModule){const d=api.registry.findMetaError(dispatchError.asModule);msg=`${d.section}.${d.name}`}
+      show(outEl,`<b>Failed:</b> ${msg}`);unsub();return;
+    }
+    if(status.isInBlock)show(outEl,`<b>In block.</b> tx ${txHash.toHex().slice(0,18)}…`);
+    if(status.isFinalized){show(outEl,
+      `<b>FINALIZED ✓</b> ${doneLabel}<br><a href="https://assethub-paseo.subscan.io/extrinsic/${txHash.toHex()}" target="_blank" rel="noopener">view on Subscan ↗</a>`);unsub()}
+  });
+}
+
+/* transfer */
+$('send').onclick=async()=>{
+  if(!api||!extAccounts.length)return;
+  const dest=$('dest').value.trim(),amt=parseFloat($('amt').value);
+  if(!dest||!(amt>0)){show($('txOut'),'<b>Fill recipient and a positive amount.</b>');return}
+  try{
+    const planck=BigInt(Math.round(amt*1e6))*10n**BigInt(decimals-6);
+    await runTx(api.tx.balances.transferKeepAlive(dest,planck),$('txOut'),'— a real transfer on a real chain.');
+  }catch(e){show($('txOut'),`<b>Rejected or error:</b> ${e.message||e}`)}
+};
+
+/* statement */
+$('post').onclick=async()=>{
+  if(!api||!extAccounts.length)return;
+  const txt=$('note').value.trim();
+  if(!txt){show($('noteOut'),'<b>Write something first.</b>');return}
+  try{await runTx(api.tx.system.remark(txt),$('noteOut'),'— your words are in a block now.')}
+  catch(e){show($('noteOut'),`<b>Rejected or error:</b> ${e.message||e}`)}
+};
+</script>
+</body>
+</html>
