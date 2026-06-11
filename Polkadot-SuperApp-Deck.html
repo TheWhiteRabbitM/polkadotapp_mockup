@@ -10,11 +10,10 @@
     --mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,"Liberation Mono",monospace;
     --disp:"Arial Black","Helvetica Neue",Helvetica,Arial,sans-serif;
   }
-  *{margin:0;padding:0;box-sizing:border-box}
+  *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
   body{background:var(--bg);color:var(--fg);font-family:var(--mono);overflow:hidden;-webkit-font-smoothing:antialiased}
 
-  /* CRT scanlines + grid + vignette overlays */
   .fx{position:fixed;inset:0;pointer-events:none;z-index:50}
   .fx.scan{background:repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0,rgba(255,255,255,.05) 1px,transparent 1px,transparent 3px);mix-blend-mode:overlay;opacity:.5;animation:flick 4s infinite}
   .fx.grid{background:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:44px 44px;opacity:.35}
@@ -26,13 +25,10 @@
   .slide.active{display:flex;animation:in .4s steps(3,end)}
   @keyframes in{from{opacity:0;clip-path:inset(0 0 100% 0)}to{opacity:1;clip-path:inset(0 0 0 0)}}
 
-  /* type */
   .tag{font-size:clamp(10px,1.05vw,13px);letter-spacing:.34em;text-transform:uppercase;color:var(--dim)}
   .tag::before{content:"> "}
-  h1{font-family:var(--disp);font-weight:900;text-transform:uppercase;letter-spacing:-.02em;line-height:.95;
-     font-size:clamp(34px,7vw,104px);margin:.18em 0}
-  h2{font-family:var(--disp);font-weight:900;text-transform:uppercase;letter-spacing:-.01em;line-height:.98;
-     font-size:clamp(26px,4.4vw,60px);margin:.05em 0 .4em}
+  h1{font-family:var(--disp);font-weight:900;text-transform:uppercase;letter-spacing:-.02em;line-height:.95;font-size:clamp(34px,7vw,104px);margin:.18em 0}
+  h2{font-family:var(--disp);font-weight:900;text-transform:uppercase;letter-spacing:-.01em;line-height:.98;font-size:clamp(26px,4.4vw,60px);margin:.05em 0 .4em}
   h3{font-family:var(--disp);text-transform:uppercase;font-size:clamp(14px,1.5vw,20px);letter-spacing:.02em;margin-bottom:.2em}
   p,li{font-size:clamp(13px,1.35vw,19px);line-height:1.55;color:#e8e8e8}
   b,strong{color:#fff}
@@ -42,7 +38,6 @@
   .fill{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center}
   .center{justify-content:center;align-items:flex-start}
 
-  /* glitch headline */
   .glitch{position:relative;display:inline-block}
   .glitch::before,.glitch::after{content:attr(data-t);position:absolute;left:0;top:0;width:100%;overflow:hidden}
   .glitch::before{transform:translate(2px,0);opacity:.7;clip-path:inset(0 0 55% 0);animation:g1 2.6s infinite steps(2,end)}
@@ -53,7 +48,6 @@
   .cursor{display:inline-block;width:.62em;height:1.05em;background:#fff;margin-left:.12em;transform:translateY(.14em);animation:blink 1s steps(1) infinite}
   @keyframes blink{50%{opacity:0}}
 
-  /* framed boxes with corner brackets */
   .box{position:relative;border:1px solid var(--line);padding:clamp(14px,1.6vw,22px);background:rgba(255,255,255,.02)}
   .box::before,.box::after{content:"";position:absolute;width:12px;height:12px;border:2px solid #fff}
   .box::before{left:-1px;top:-1px;border-right:none;border-bottom:none}
@@ -67,21 +61,17 @@
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
   .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
   .grid4{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-  ul{list-style:none;display:flex;flex-direction:column;gap:.55em}
+  ul{list-style:none;display:flex;flex-direction:column;gap:.5em}
   ul li::before{content:"▮ ";color:#fff;font-size:.7em;vertical-align:middle}
-  .kv{font-family:var(--mono);font-size:clamp(12px,1.2vw,16px)}
-  .kv span{color:var(--dim)}
   .chip{display:inline-block;border:1px solid var(--line);padding:.2em .6em;margin:.15em .25em .15em 0;font-size:.78em;text-transform:uppercase;letter-spacing:.08em}
   .chip.on{background:#fff;color:#000}
   code{font-family:var(--mono);background:#fff;color:#000;padding:.04em .35em;font-size:.92em}
-  table{border-collapse:collapse;width:100%;font-family:var(--mono);font-size:clamp(11px,1.15vw,15px)}
+  table{border-collapse:collapse;width:100%;font-family:var(--mono);font-size:clamp(11px,1.12vw,15px)}
   th,td{border:1px solid var(--line);padding:.5em .7em;text-align:left;vertical-align:top}
   th{text-transform:uppercase;letter-spacing:.1em;color:#fff;background:rgba(255,255,255,.06);font-size:.82em}
+  td.lock{color:var(--dim)}
+  pre.ascii{font-family:var(--mono);font-size:clamp(9px,1.05vw,15px);line-height:1.32;color:#fff;white-space:pre}
 
-  /* ascii triangle */
-  pre.ascii{font-family:var(--mono);font-size:clamp(9px,1.05vw,15px);line-height:1.32;color:#fff;white-space:pre;letter-spacing:0}
-
-  /* footer / nav */
   .foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;border-top:1px solid var(--line);padding-top:10px}
   .foot .tag::before{content:""}
   .nav{position:fixed;right:18px;bottom:16px;display:flex;gap:8px;z-index:60}
@@ -103,15 +93,15 @@
 
 <div class="deck" id="deck">
 
-  <!-- 1 -->
+  <!-- 1 TITLE -->
   <section class="slide active center">
-    <span class="tag">paritytech // open-source intel · 2026</span>
+    <span class="tag">paritytech // open-source intel · updated 10 jun 2026</span>
     <h1><span class="glitch" data-t="THE SELF-">THE SELF-</span><br><span class="glitch" data-t="SOVEREIGN">SOVEREIGN</span><br><span class="glitch" data-t="SUPER-APP">SUPER-APP</span><span class="cursor"></span></h1>
-    <p class="big dim" style="max-width:30ch">Polkadot's bid for the application layer — decoded from the protocol &amp; the source.</p>
-    <div class="foot"><span class="tag">POLKADOT</span><span class="tag">HOST · PRODUCTS · TrUAPI</span></div>
+    <p class="big dim" style="max-width:34ch">Polkadot's bid for the application layer — decoded from the protocol, the contracts, and now <b style="color:#fff">the platform's own architecture map.</b></p>
+    <div class="foot"><span class="tag">POLKADOT</span><span class="tag">HOST · PRODUCTS · TrUAPI · W3S</span></div>
   </section>
 
-  <!-- 2 thesis -->
+  <!-- 2 THESIS -->
   <section class="slide">
     <span class="tag">thesis</span>
     <div class="fill">
@@ -120,30 +110,56 @@
       <div class="box inv" style="margin-top:22px">
         <p class="mono"><b>WeChat Mini-Programs × Telegram Mini Apps × iOS permissions × a self-custodial wallet.</b> On-chain. Addressed by <b>.dot</b> names.</p>
       </div>
+      <p class="dim mono" style="margin-top:14px">// no longer just inference: the org now publishes its own component map — <b style="color:#fff">w3s-architecture</b>.</p>
     </div>
     <div class="foot"><span class="tag">01</span><span class="tag">the bet: abstract the chain away</span></div>
   </section>
 
-  <!-- 3 the triangle -->
+  <!-- 3 THE MAP (NEW) -->
+  <section class="slide">
+    <span class="tag">new intel // the platform's own map</span>
+    <h2>They published<br>the blueprint.</h2>
+    <div class="row" style="flex:1;min-height:0">
+      <div class="col" style="flex:1.5">
+        <table>
+          <tr><th>layer</th><th>components (from repos.csv)</th></tr>
+          <tr><td><b>Host</b></td><td>polkadot-app-<b>ios-v2</b> · polkadot-app-<b>android-v2</b> · <b>polkadot-desktop</b> · Polkadot Web (dotli)</td></tr>
+          <tr><td><b>Payments</b></td><td><b>W3S Pay</b> · <b>W3S Payment Processor</b> · <b>W3S Pay Admin</b></td></tr>
+          <tr><td><b>Identity</b></td><td><b>dotNS</b> · <b>individuality</b> · Identity backend (+People-chain fixture)</td></tr>
+          <tr><td><b>Commerce</b></td><td><b>Mercado</b> · <b>LocalDot</b> (p2p-market) · Browse.dot</td></tr>
+          <tr><td><b>Events</b></td><td><b>tick3t</b> (W3S Ticketing) · w3s-conference-app</td></tr>
+          <tr><td><b>SDKs</b></td><td>Triangle-js SDK · Product SDK · dotNS-CLI · Playground (app/CLI/constellation)</td></tr>
+          <tr><td><b>Chains</b></td><td>Polkadot SDK · Bulletin Chain · Previewnet</td></tr>
+        </table>
+      </div>
+      <div class="box inv col" style="flex:1;justify-content:center">
+        <h3>Why it matters</h3>
+        <p>The repo <b>w3s-architecture</b> is the org's <b>open-sourcing tracker</b>: a canonical registry of every component, its repo, and its release status. The super-app thesis is now <b>their</b> document, not our hypothesis.</p>
+      </div>
+    </div>
+    <div class="foot"><span class="tag">02</span><span class="tag">source: w3s-architecture/repos.csv · 9–10 jun 2026</span></div>
+  </section>
+
+  <!-- 4 TRIANGLE -->
   <section class="slide">
     <span class="tag">architecture // the triangle</span>
     <div class="fill">
       <div class="row" style="align-items:center;gap:40px">
         <pre class="ascii">        ┌───────────────────────────┐
         │          HOST             │
-        │   Polkadot App (D/M/Web)  │
-        │   keys · identity · UI    │
+        │  iOS-v2 · Android-v2 ·    │
+        │  Desktop · Web (dotli)    │
         └────────────▲──────────────┘
                      │  TrUAPI
             SCALE over MessagePort
         ┌────────────▼──────────────┐
         │        PRODUCTS           │
-        │  sandboxed mini-apps      │
+        │  pay · market · tickets   │
         │  built w/ product-sdk     │
         └────────────▼──────────────┘
         ┌────────────────────────────┐
         │  CHAIN  Asset Hub · Bulletin│
-        │  · Statement Store          │
+        │  · People · Statement Store │
         └────────────────────────────┘</pre>
         <div class="col">
           <h3>"Tru" = Triangle</h3>
@@ -151,16 +167,16 @@
           <ul>
             <li><b>Host</b> mediates — holds keys, grants capabilities.</li>
             <li><b>Product</b> is sandboxed — gets only what the user allows.</li>
-            <li><b>Chain</b> settles — Asset Hub, Bulletin, Statement Store.</li>
+            <li><b>Chain</b> settles — Asset Hub, Bulletin, People.</li>
           </ul>
-          <p class="dim mono">append-only wire IDs → products never break across protocol upgrades.</p>
+          <p class="dim mono">append-only wire IDs → deployed products never break across protocol upgrades. There's even a <b style="color:#fff">Triangle-js SDK</b> on the map.</p>
         </div>
       </div>
     </div>
-    <div class="foot"><span class="tag">02</span><span class="tag">host ↔ product ↔ chain</span></div>
+    <div class="foot"><span class="tag">03</span><span class="tag">host ↔ product ↔ chain</span></div>
   </section>
 
-  <!-- 4 TrUAPI surface -->
+  <!-- 5 TRUAPI SURFACE -->
   <section class="slide">
     <span class="tag">truapi // the operating-system api</span>
     <h2>Not a wallet shim.<br>A phone OS.</h2>
@@ -172,53 +188,50 @@
       <div class="box"><h3>Crypto</h3><p class="dim mono">derive_entropy → X25519 (E2E)</p></div>
       <div class="box"><h3>Social / data</h3><p class="dim mono">chat groups · statement_store pub/sub · theme</p></div>
     </div>
-    <div class="foot"><span class="tag">03</span><span class="tag">identity · pay · perms · crypto · social</span></div>
+    <div class="foot"><span class="tag">04</span><span class="tag">identity · pay · perms · crypto · social</span></div>
   </section>
 
-  <!-- 5 identity -->
+  <!-- 6 IDENTITY / DOTNS -->
+  <section class="slide">
+    <span class="tag">identity // dotNS, decoded</span>
+    <div class="fill row" style="gap:34px;align-items:center">
+      <div class="col">
+        <h2>Your name<br>is the protocol.</h2>
+        <p><b>dotNS</b> (public, pallet-revive on Asset Hub): register a <b>.dot</b> name, get an <b>ERC721</b> ownership token, attach records, mint subnames.</p>
+        <div class="box mono s12"><span class="dim">// the price of a name</span><br>constant <b>D = 10 DOT</b> at launch — part deposit (escrow-refundable), part fee. Tier transfers cost extra: anti-"tier laundering".</div>
+      </div>
+      <div class="col">
+        <div class="box inv"><h3>The killer detail</h3>
+          <p>Name tiers: NoStatus · <b>PopLite</b> · <b>PopFull</b> · Reserved.<br><b>"PoP" = Proof of Personhood.</b> A separate registration gateway issues <b>verified usernames to verified humans</b> — wired to the <b>individuality</b> repo and a <b>People-chain</b> fixture in the identity backend.</p>
+        </div>
+        <p class="dim mono">// Gavin's individuality agenda, shipped as a naming tier.</p>
+      </div>
+    </div>
+    <div class="foot"><span class="tag">05</span><span class="tag">.dot = ERC721 · D=10 DOT · PoP tiers</span></div>
+  </section>
+
+  <!-- 7 SCOPED ACCOUNTS -->
   <section class="slide">
     <span class="tag">identity // scoped by design</span>
     <div class="fill row" style="gap:34px;align-items:center">
       <div class="col">
         <h2>One you,<br>many faces.</h2>
-        <p>You sign in once with a <b>.dot</b> identity (DotNS). But every product gets its <b>own derived account</b> — it never sees your global wallet.</p>
+        <p>You sign in once with a <b>.dot</b> identity. But every product gets its <b>own derived account</b> — it never sees your global wallet.</p>
         <div class="box mono"><span class="dim">// per-product account</span><br>accountGet({ productAccountId:{<br>&nbsp;&nbsp;dotNsIdentifier: <b>"my-app.dot"</b>,<br>&nbsp;&nbsp;derivationIndex: 0 }})</div>
       </div>
       <div class="col">
         <div class="box inv"><h3>Why it matters</h3><p>A merchant app sees a <b>scoped</b> account, not your identity graph. Capability-security applied to apps — sandboxing the financial self.</p></div>
         <ul>
-          <li><b>host_get_user_id</b> — JIT-approved primary identity</li>
-          <li><b>host_account_get</b> — derived, per-product</li>
-          <li><b>legacy_accounts</b> — bring imported keys</li>
+          <li><b>JIT permissions</b> — least privilege, "Allow always / once / never"</li>
+          <li><b>derive_entropy → X25519</b> — E2E without round-trips</li>
+          <li><b>Self-custodial</b> — keys stay with you</li>
         </ul>
       </div>
     </div>
-    <div class="foot"><span class="tag">04</span><span class="tag">.dot identity · derived accounts</span></div>
+    <div class="foot"><span class="tag">06</span><span class="tag">derived accounts · JIT consent · e2e</span></div>
   </section>
 
-  <!-- 6 permissions -->
-  <section class="slide">
-    <span class="tag">permissions // just-in-time</span>
-    <div class="fill">
-      <h2>iOS-style consent,<br>for crypto.</h2>
-      <div class="row" style="gap:30px">
-        <div class="col">
-          <p>Every capability is a <b>prompt</b>: <span class="chip on">Allow always</span><span class="chip">This time only</span><span class="chip">Never</span></p>
-          <h3 style="margin-top:14px">Device</h3>
-          <p class="mono dim">Notifications · <b style="color:#fff">NFC (tap-to-pay)</b> · Clipboard · OpenUrl · <b style="color:#fff">Biometrics</b></p>
-          <h3 style="margin-top:10px">Remote</h3>
-          <p class="mono dim">Remote(domain patterns) · WebRTC · ChainSubmit · StatementSubmit</p>
-        </div>
-        <div class="box inv col" style="justify-content:center">
-          <h3>The tell</h3>
-          <p class="big"><b>NFC + Biometrics + payment requests</b> = this is aimed at <b>real-world, consumer payments</b> — not a dev console.</p>
-        </div>
-      </div>
-    </div>
-    <div class="foot"><span class="tag">05</span><span class="tag">capability-gated · tap-to-pay</span></div>
-  </section>
-
-  <!-- 7 payments -->
+  <!-- 8 PAYMENTS PRIMITIVE -->
   <section class="slide">
     <span class="tag">payments // a first-class primitive</span>
     <h2>The wallet is the OS.</h2>
@@ -229,10 +242,23 @@
       <div class="box"><h3>status_subscribe</h3><p>Lifecycle: <span class="mono">Processing → Completed / Failed</span>.</p></div>
     </div>
     <p class="dim mono" style="margin-top:14px">// buyer recharge = top_up · pay seller = request · credits = balance — at the protocol layer, for ANY mini-app.</p>
-    <div class="foot"><span class="tag">06</span><span class="tag">top_up · request · balance · status</span></div>
+    <div class="foot"><span class="tag">07</span><span class="tag">top_up · request · balance · status</span></div>
   </section>
 
-  <!-- 8 privacy/crypto -->
+  <!-- 9 W3S PAY (NEW) -->
+  <section class="slide">
+    <span class="tag">new intel // the payment products exist</span>
+    <h2>W3S Pay:<br>buyer, seller, admin.</h2>
+    <div class="grid3" style="flex:1;min-height:0">
+      <div class="box inv"><h3>W3S Pay</h3><p>The <b>buyer-side</b> payment app.<br><span class="mono" style="font-size:.85em">t3rminal/apps/w3spay</span></p></div>
+      <div class="box inv"><h3>W3S Payment Processor</h3><p>The <b>merchant receiver</b> — accepts &amp; settles incoming payments.<br><span class="mono" style="font-size:.85em">t3rminal/apps/w3s-receiver</span></p></div>
+      <div class="box inv"><h3>W3S Pay Admin</h3><p>The <b>operator console</b> for the rails.<br><span class="mono" style="font-size:.85em">t3rminal/apps/w3spay-admin</span></p></div>
+    </div>
+    <div class="box" style="margin-top:16px"><p class="mono"><b>The original question — answered by the map.</b> "Something that pays and accepts payments": a buyer app, a seller processor, an admin. Listed on the official component registry; code not yet public (paths 404 → release pending).</p></div>
+    <div class="foot"><span class="tag">08</span><span class="tag">source: w3s-architecture/repos.csv</span></div>
+  </section>
+
+  <!-- 10 PRIVACY -->
   <section class="slide">
     <span class="tag">privacy // on-device crypto</span>
     <div class="fill row" style="gap:34px;align-items:center">
@@ -242,20 +268,20 @@
       </div>
       <div class="col">
         <div class="box inv"><h3>Privacy stack</h3>
-          <ul style="--x:0">
+          <ul>
             <li><b>Per-product accounts</b> — isolation</li>
             <li><b>JIT permissions</b> — least privilege</li>
             <li><b>derive_entropy → X25519</b> — E2E</li>
-            <li><b>Self-custodial</b> — keys stay with you</li>
+            <li><b>PoP without doxxing</b> — verified-human tier, not KYC dossiers</li>
           </ul>
         </div>
         <p class="dim mono">privacy by architecture, not by promise.</p>
       </div>
     </div>
-    <div class="foot"><span class="tag">07</span><span class="tag">scoped keys · e2e · self-custody</span></div>
+    <div class="foot"><span class="tag">09</span><span class="tag">scoped keys · e2e · self-custody</span></div>
   </section>
 
-  <!-- 9 social / realtime -->
+  <!-- 11 SOCIAL -->
   <section class="slide">
     <span class="tag">social // the real-time spine</span>
     <div class="fill">
@@ -264,12 +290,12 @@
         <div class="box"><h3>Statement Store</h3><p>A gossip <b>pub/sub</b> bus. Topics with <span class="mono">MatchAll</span>/<span class="mono">MatchAny</span> filters. The backbone for live games, presence, feeds.</p></div>
         <div class="box"><h3>Host chat</h3><p><span class="mono">create_simple_group()</span> spins up a room and returns a join link; the Host renders the UI. Social as a system call.</p></div>
       </div>
-      <p class="dim mono" style="margin-top:12px">// the same primitives power festival announcements and real-time multiplayer arcade.</p>
+      <p class="dim mono" style="margin-top:12px">// the same primitives power conference announcements and real-time multiplayer arcade.</p>
     </div>
-    <div class="foot"><span class="tag">08</span><span class="tag">pub/sub · chat · presence</span></div>
+    <div class="foot"><span class="tag">10</span><span class="tag">pub/sub · chat · presence</span></div>
   </section>
 
-  <!-- 10 product-sdk -->
+  <!-- 12 PRODUCT-SDK -->
   <section class="slide">
     <span class="tag">product-sdk // mini-apps, cheap</span>
     <h2>The Host does the hard part.</h2>
@@ -290,89 +316,106 @@
         <p><b>SS58 ↔ H160</b> + pallet-revive = <b>deliberately EVM/Solidity-friendly.</b> Millions of Ethereum devs onboard with zero new language.</p>
       </div>
     </div>
-    <div class="foot"><span class="tag">09</span><span class="tag">15 packages · typed · evm-friendly</span></div>
+    <div class="foot"><span class="tag">11</span><span class="tag">15 packages · typed · evm-friendly</span></div>
   </section>
 
-  <!-- 11 data/web layer -->
+  <!-- 13 WEB LAYER -->
   <section class="slide">
     <span class="tag">the web layer // own your app</span>
     <div class="fill">
       <h2>A website is now<br>an on-chain object.</h2>
       <div class="grid3">
-        <div class="box"><h3>.dot / DotNS</h3><p>Human-readable identity for users <b>and</b> products. <span class="mono dim">my-app.dot</span></p></div>
+        <div class="box"><h3>.dot / dotNS</h3><p>ERC721 names for users <b>and</b> products. <span class="mono dim">my-app.dot · D=10 DOT</span></p></div>
         <div class="box"><h3>Bulletin Chain</h3><p>Content-addressed storage. <span class="mono dim">CIDv1 · Blake2b-256</span></p></div>
-        <div class="box inv"><h3>t3rminal</h3><p>Publish a whole static site <b>to a .dot domain</b>, stored on Bulletin, indexed on-chain. IPFS-style hosting + ENS-style naming.</p></div>
+        <div class="box inv"><h3>polkadot-app-deploy</h3><p><b>One command</b>: static site → Bulletin → served under a <b>.dot</b> name. "No server or account to sign up for." t3rminal, productised.</p></div>
       </div>
     </div>
-    <div class="foot"><span class="tag">10</span><span class="tag">naming · storage · decentralised web</span></div>
+    <div class="foot"><span class="tag">12</span><span class="tag">naming · storage · decentralised web</span></div>
   </section>
 
-  <!-- 12 AI-native -->
+  <!-- 14 AI-NATIVE -->
   <section class="slide">
     <span class="tag">distribution // the flywheel</span>
     <div class="fill row" style="gap:34px;align-items:center">
       <div class="col">
-        <h2>Built by agents.</h2>
-        <p>The SDK ships a <b>.claude-plugin/</b> and a <b>CLAUDE.md</b>. <b>dotli-starter</b> is an explicitly <b>"LLM-friendly"</b> template. <b>playground-cli</b> scaffolds in seconds.</p>
+        <h2>Built by agents.<br>Guarded by agents.</h2>
+        <p>The SDK ships a <b>.claude-plugin/</b> + <b>CLAUDE.md</b>. <b>dotli-starter</b> is explicitly <b>"LLM-friendly"</b>. And the new identity backend includes an <b>"AI guard-rail CLI"</b> — agents in the dev loop <i>and</i> the ops loop.</p>
       </div>
       <div class="box inv col" style="justify-content:center">
         <h3>HYPOTHESIS</h3>
         <p class="big">Typed + versioned + self-describing APIs are exactly what <b>AI coding agents</b> need. The mini-app catalog <b>stocks itself.</b></p>
       </div>
     </div>
-    <div class="foot"><span class="tag">11</span><span class="tag">typed apis → agent-built products</span></div>
+    <div class="foot"><span class="tag">13</span><span class="tag">typed apis → agent-built products</span></div>
   </section>
 
-  <!-- 13 verticals -->
+  <!-- 15 W3S DEBUT (NEW) -->
   <section class="slide">
-    <span class="tag">reference products // tiling the surface</span>
-    <h2>Six verticals, one app.</h2>
-    <div class="grid3" style="flex:1;min-height:0">
-      <div class="box"><h3>festival</h3><p class="dim">events · soulbound tickets · POAPs</p></div>
-      <div class="box"><h3>arcade / RPS</h3><p class="dim">real-time multiplayer gaming</p></div>
-      <div class="box"><h3>simple-survey</h3><p class="dim">governance · sybil-resistant polls</p></div>
-      <div class="box"><h3>t3rminal</h3><p class="dim">content · own-your-site</p></div>
-      <div class="box inv"><h3>payments</h3><p>tap-to-pay · request / top-up</p></div>
-      <div class="box inv"><h3>social</h3><p>chat · presence · feeds</p></div>
+    <span class="tag">go-to-market // dogfood at the summit</span>
+    <div class="fill">
+      <h2>W3S = Web3 Summit.<br>The launch is the venue.</h2>
+      <div class="grid3">
+        <div class="box"><h3>tick3t</h3><p class="dim">W3S Ticketing — entry passes</p></div>
+        <div class="box"><h3>w3s-conference-app</h3><p class="dim">festival/conference product — agenda, sessions, POAPs</p></div>
+        <div class="box"><h3>W3S Pay trio</h3><p class="dim">pay at the bar, settle the merchant, run the rails</p></div>
+      </div>
+      <div class="box inv" style="margin-top:16px"><p class="big"><b>HYPOTHESIS:</b> the entire platform debuts as the operating system of <b>Web3 Summit</b> — tickets, payments, chat, presence — thousands of real users, one venue, zero web2 rails.</p></div>
     </div>
-    <div class="foot"><span class="tag">12</span><span class="tag">identity · pay · social · gaming · content · commerce</span></div>
+    <div class="foot"><span class="tag">14</span><span class="tag">tick3t · conference app · w3s pay</span></div>
   </section>
 
-  <!-- 14 strategic -->
+  <!-- 16 VERTICALS -->
+  <section class="slide">
+    <span class="tag">products // tiling the surface</span>
+    <h2>Eight verticals, one app.</h2>
+    <div class="grid4" style="flex:1;min-height:0">
+      <div class="box inv"><h3>payments</h3><p>W3S Pay · processor · admin</p></div>
+      <div class="box inv"><h3>commerce</h3><p>Mercado · LocalDot (p2p-market)</p></div>
+      <div class="box"><h3>events</h3><p class="dim">tick3t · conference app · POAPs</p></div>
+      <div class="box"><h3>identity</h3><p class="dim">dotNS · individuality · People</p></div>
+      <div class="box"><h3>content</h3><p class="dim">t3rminal · app-deploy · Browse.dot</p></div>
+      <div class="box"><h3>gaming</h3><p class="dim">arcade · RPS · collectibles webview</p></div>
+      <div class="box"><h3>social</h3><p class="dim">chat · statement store · feedback board</p></div>
+      <div class="box"><h3>governance</h3><p class="dim">simple-survey</p></div>
+    </div>
+    <div class="foot"><span class="tag">15</span><span class="tag">the consumer surface, tiled</span></div>
+  </section>
+
+  <!-- 17 STRATEGIC -->
   <section class="slide">
     <span class="tag">strategic read // the gavin lens</span>
     <div class="fill">
       <h2>The iPhone<br>moment.</h2>
-      <p class="big">Ethereum → Polkadot → 2.0 → JAM was all <b>infrastructure.</b> This is the <b>application layer + the user.</b></p>
+      <p class="big">Ethereum → Polkadot → 2.0 → JAM was all <b>infrastructure.</b> This is the <b>application layer + the user.</b> Proof-of-personhood in the name system. Payments in the OS. A summit as the launchpad.</p>
       <div class="box inv" style="margin-top:18px"><p class="big"><b>The moat isn't TPS.</b> It's the account, the <b>.dot</b> identity, and the <b>payment balance</b> sitting in millions of pockets — self-custodial, with a mini-app store agents can fill.</p></div>
     </div>
-    <div class="foot"><span class="tag">13</span><span class="tag">capability-security · sovereign UX</span></div>
+    <div class="foot"><span class="tag">16</span><span class="tag">capability-security · sovereign UX</span></div>
   </section>
 
-  <!-- 15 watch -->
+  <!-- 18 CAVEATS -->
   <section class="slide">
     <span class="tag">analyst caveats // what to watch</span>
     <h2>Read the fine print.</h2>
     <div class="grid2" style="flex:1;min-height:0">
-      <div class="box"><h3>Where's the Host?</h3><p>No public <span class="mono">polkadot-host</span> repo found. OSS = protocol + SDK + products. The <b>app-store policy</b> is where "permissionless" gets tested.</p></div>
-      <div class="box"><h3>Pre-product</h3><p>Everything is <b>Paseo testnet</b> + "<b>not audited</b>". Shape &amp; timeline can still move.</p></div>
-      <div class="box"><h3>Balance custody</h3><p>What backs <span class="mono">top_up</span>? DOT, stablecoin, or Host IOU? Off-ramp &amp; abuse limits unspecified.</p></div>
-      <div class="box"><h3>Regulation</h3><p>NFC tap-to-pay at scale meets <b>KYC/AML</b>. Absent from the OSS so far.</p></div>
+      <div class="box inv"><h3>Update: the iOS Host is OPEN</h3><p><span class="mono">polkadot-ios-community</span> shipped (GPL-3, Swift, 28 pkgs): chat+calls E2E, username payments w/ pool auto-swap, sandboxed dApps, PoP via <b>DIM2 gesture calls</b>. Still 404: Android, Desktop, W3S Pay.</p></div>
+      <div class="box"><h3>Pre-product</h3><p>Everything public is <b>Paseo testnet</b> + "<b>not audited</b>". Shape &amp; timeline can still move.</p></div>
+      <div class="box"><h3>Balance custody</h3><p>What backs <span class="mono">top_up</span>? DOT, stablecoin, or Host IOU? Off-ramp &amp; abuse limits unspecified. W3S Pay code still closed.</p></div>
+      <div class="box"><h3>PoP &amp; regulation</h3><p>Proof-of-personhood tiers are elegant, but tap-to-pay at scale still meets <b>KYC/AML</b>. Absent from the OSS so far.</p></div>
     </div>
-    <div class="foot"><span class="tag">14</span><span class="tag">testnet · unaudited · host = ?</span></div>
+    <div class="foot"><span class="tag">17</span><span class="tag">testnet · unaudited · release queue visible</span></div>
   </section>
 
-  <!-- 16 closing -->
+  <!-- 19 CLOSING -->
   <section class="slide center">
     <span class="tag">bottom line</span>
     <h1 style="font-size:clamp(28px,5.2vw,76px)"><span class="glitch" data-t="ONE ACCOUNT.">ONE ACCOUNT.</span><br><span class="glitch" data-t="ONE BALANCE.">ONE BALANCE.</span><br><span class="glitch" data-t="EVERY APP.">EVERY APP.</span><span class="cursor"></span></h1>
-    <p class="big dim" style="max-width:42ch">Host + Products + TrUAPI + DotNS + Bulletin = a self-custodial Polkadot super-app with a mini-app economy. The most consequential thing Parity has shipped since parachains — <b style="color:#fff">if the Host reaches mainstream hands.</b></p>
-    <div class="foot"><span class="tag">POLKADOT // 2026</span><span class="tag">source: paritytech (oss) · testnet · not audited · not advice</span></div>
+    <p class="big dim" style="max-width:44ch">Host + Products + TrUAPI + dotNS + Bulletin + <b style="color:#fff">W3S Pay</b> = a self-custodial Polkadot super-app with a mini-app economy — and the org's own map now says so. <b style="color:#fff">Watch the 404s: that's the release queue.</b></p>
+    <div class="foot"><span class="tag">POLKADOT // 2026</span><span class="tag">source: paritytech (oss) + w3s-architecture map · testnet · not audited · not advice</span></div>
   </section>
 
 </div>
 
-<div class="count" id="count">01 / 16</div>
+<div class="count" id="count">01 / 19</div>
 <div class="hint" id="hint">[ ← → ] navigate &nbsp;·&nbsp; [ F ] fullscreen</div>
 <div class="nav">
   <button class="btn" id="prev">‹</button>

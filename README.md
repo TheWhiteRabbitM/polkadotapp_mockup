@@ -116,8 +116,9 @@ All conclusions are drawn from public, open-source material; protocol/method nam
 - [paritytech/playground-cli](https://github.com/paritytech/playground-cli) — scaffolding CLI
 - [paritytech/subxt-assets](https://github.com/paritytech/subxt-assets) · [paritytech/contract-dependency-manager](https://github.com/paritytech/contract-dependency-manager)
 
-**Host UI**
+**Host UI / Host app**
 - [paritytech/polkadot-app-design-system](https://github.com/paritytech/polkadot-app-design-system) (+ `-android`, `-ios`, `-desktop`)
+- [paritytech/polkadot-ios-community](https://github.com/paritytech/polkadot-ios-community) — **the iOS Host itself** (self-custodial super-app: E2E chat/calls, username payments, sandboxed dApps, PoP) — see `Parity-Host-iOS-OpenSourced.md`
 
 **Context / strategy**
 - [Polkadot Roundup 2025 — Parity blog](https://www.parity.io/blog/polkadot-roundup-2025) (2026 = "products + a platform for them to sit upon"; gas in any asset auto-swapped to DOT)
