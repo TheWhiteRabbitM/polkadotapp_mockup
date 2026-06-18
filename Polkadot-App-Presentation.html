@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TWR.DOT — live-feel replica · polkadot-ios-community</title>
+<title>Polkadot super-app — try the Web3 Summit demo (community recreation)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700&family=Inter:wght@400;500;600;700&family=Mulish:wght@800;900&display=swap" rel="stylesheet">
@@ -123,10 +123,16 @@
   .wcard.open .chev{transform:rotate(90deg)}
   .wcard.dim{transform:scale(.95)}
   .wcard.peek90 .chead{min-height:90px}
-  .cashcard{position:relative;border-radius:18px;overflow:hidden;background:#0a0a0a;border:1px solid #2c2e34;aspect-ratio:1.586;padding:14px 16px;display:flex;flex-direction:column;justify-content:space-between;color:#fff}
-  .cashcard::before{content:"";position:absolute;inset:0;background:radial-gradient(120px 160px at 78% 38%,rgba(255,255,255,.16),transparent 70%),radial-gradient(90px 120px at 85% 70%,rgba(255,255,255,.08),transparent 70%),repeating-conic-gradient(rgba(255,255,255,.025) 0% .6%,transparent .6% 1.4%);pointer-events:none}
-  .cashcard .cc-top{font-weight:700;font-size:15px;display:flex;align-items:center;gap:6px}
-  .cashcard .cc-bal{font-family:var(--font-display);font-weight:900;font-size:34px;line-height:1}
+  /* CASH balance card — faithful to the real app (marble bust motif + grain) */
+  .cashcard{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:1.5;padding:16px;display:flex;flex-direction:column;justify-content:space-between;color:#fff;border:1px solid #2c2e34;
+    background:radial-gradient(150px 200px at 82% 30%,rgba(255,255,255,.10),transparent 70%),linear-gradient(120deg,#1b1c20,#0b0b0d 55%,#000)}
+  .cashcard::after{content:"";position:absolute;inset:0;opacity:.14;mix-blend-mode:overlay;pointer-events:none;
+    background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .cashcard .cc-top{position:relative;z-index:1;font-weight:800;font-size:16px;display:flex;align-items:center;gap:8px;letter-spacing:.02em}
+  .cashcard .cc-logo{width:22px;height:22px;border-radius:50%;border:2.5px solid #fff;display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:900;font-size:12px;line-height:1}
+  .cashcard .cc-bal{position:relative;z-index:1;font-family:var(--font-display);font-weight:900;font-size:40px;line-height:1}
+  /* persistent honest marker — this is a DEMO, not the real app */
+  .demochip{position:absolute;bottom:66px;left:8px;z-index:40;background:rgba(255,204,69,.9);color:#000;font-family:var(--font-sans);font-weight:700;font-size:8.5px;letter-spacing:.1em;padding:3px 7px;border-radius:7px;box-shadow:0 2px 8px rgba(0,0,0,.45);pointer-events:none;opacity:.85}
   .lbl{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-tertiary);margin:12px 0 6px;font-weight:600}
   input,select,textarea{background:var(--bg-nested);border:1px solid transparent;color:var(--fg-primary);font-family:var(--font-mono);font-size:13px;padding:11px 14px;width:100%;outline:none;border-radius:16px}
   textarea{resize:none;min-height:58px;font-family:var(--font-sans)}
@@ -171,7 +177,8 @@
   .chatlist{padding:0 12px}
   .chatrow{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:16px;cursor:pointer}
   .chatrow:hover{background:var(--bg-container)}
-  .av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex:0 0 auto;color:#222}
+  .av{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;flex:0 0 auto;color:#222;object-fit:cover}
+  img.av{background:#000}
   .pav{background:#101012;position:relative}
   body[data-theme="day"] .pav,body[data-theme="lisbon"] .pav{background:#1a1a1a}
   .pav::before{content:"";position:absolute;inset:0;border-radius:50%;background:
@@ -253,10 +260,19 @@
   #onb .foot b{color:var(--fg-secondary)}
   /* conversation */
   #convo{z-index:22}
-  #convo .obody{background-color:var(--chat-main);border-radius:24px 24px 0 0;padding:16px;color:var(--chat-fg);transition:background-color .4s}
-  .bub{background:var(--chat-container);color:#fff;border-radius:16px 16px 16px 4px;padding:9px 12px;font-size:13px;max-width:85%;margin-bottom:8px;line-height:1.45;white-space:pre-line}
-  .bub.me{background:var(--action-primary);color:var(--fg-inverted);border-radius:16px 16px 4px 16px;margin-left:auto}
+  #convo .obody{background-color:var(--bg-main);padding:16px;color:var(--fg-primary);transition:background-color .4s}
+  .bub{position:relative;background:var(--bg-container);color:var(--fg-primary);border-radius:18px 18px 18px 6px;padding:8px 11px 6px;font-size:13.5px;max-width:82%;margin-bottom:9px;line-height:1.4;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+  .bub.me{background:var(--chat-container);color:#fff;border-radius:18px 18px 6px 18px;margin-left:auto}
+  .bub .tx{white-space:pre-line}
+  .bub .qt{border-left:3px solid currentColor;background:rgba(0,0,0,.06);border-radius:8px;padding:5px 8px;margin-bottom:6px;font-size:11.5px}
+  .bub.me .qt{background:rgba(255,255,255,.15)}
+  .bub .qt b{display:block;font-size:10px;opacity:.7;margin-bottom:1px;font-weight:700}
+  .bub .tm{display:block;text-align:right;font-size:10px;opacity:.6;margin-top:3px;font-family:var(--font-mono)}
   .bub img{max-width:100%;border-radius:10px}
+  .bub.typing{display:inline-flex;gap:5px;align-items:center;padding:12px 14px;width:auto}
+  .bub.typing i{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.45;animation:typ 1.1s infinite}
+  .bub.typing i:nth-child(2){animation-delay:.15s}.bub.typing i:nth-child(3){animation-delay:.3s}
+  @keyframes typ{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-4px);opacity:1}}
   .qreply{display:inline-block;background:rgba(0,0,0,.25);color:var(--chat-fg);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:7px 14px;font-size:12px;margin:3px 4px 0 0;cursor:pointer}
   .cin{display:flex;gap:8px;padding:10px 14px calc(12px + env(safe-area-inset-bottom));background:var(--bg-main)}
   .cin input{flex:1}
@@ -309,19 +325,21 @@
 <div class="stagewrap" id="stage">
   <div class="aur a1"></div><div class="aur a2"></div><div class="aur a3"></div>
   <div class="aside">
-    <span class="tag">interactive demo · live on testnet</span>
-    <h1>Try the Polkadot super-app. <i>Right now.</i></h1>
-    <p>A working replica of the open-source iOS Host (<b>polkadot-ios-community</b>): pick a username, chat, switch the 5 themes, run the <b>W3S Pay merchant terminal</b>, send CASH — while <b>real blocks, assets and identities</b> stream in from Polkadot's Paseo testnets.</p>
+    <span class="tag">web3 summit · live demo, recreated for everyone</span>
+    <h1>The Polkadot super-app.<br><i>Now everyone can try it.</i></h1>
+    <p>Today it was unveiled with a <b>live demo at the Web3 Summit</b> — on stage, for the people in the room. So I rebuilt it for everyone else: a hands-on, <b>as-close-to-real-as-possible</b> recreation, pieced together from Parity's open-source repos and the public app build.</p>
+    <p style="margin-top:12px">Pick a username, check in, chat &amp; call, pay at the merchant terminal, scan a QR, play the gesture game, earn your membership — the whole experience, right in your browser. Try all <b>5 themes</b> too.</p>
     <div class="disclaimer">
-      <h3>⚠️ NOTHING IS STORED. ANYWHERE.</h3>
-      <p><b>No accounts. No servers. No cookies. No localStorage. No analytics.</b><br>
-      Everything you type — including your username — lives only in this browser tab's memory and <b>vanishes the moment you refresh</b>. Payments and balances are <b>simulated</b>; chain data is read-only from public testnets. This is an unofficial demo, <b>unaffiliated with Parity</b>. Not financial advice.</p>
+      <h3>⚠️ A recreation — not the real app</h3>
+      <p>This is an <b>independent, community recreation</b> for people who weren't at the Web3 Summit demo — not the official app. It runs <b>fully offline</b>: no blockchain, no network, no wallet, no accounts, no servers, no cookies, no analytics.<br>
+      Every balance, payment, identity and check-in is <b>simulated</b>, stored <b>nowhere</b>, and gone the moment you refresh. <b>Unaffiliated with Parity / Polkadot.</b> No real value. Not financial advice.</p>
     </div>
-    <div class="foot">real signing only if you connect a wallet extension · testnet PAS: <a href="https://faucet.polkadot.io/?parachain=1000" target="_blank" rel="noopener">faucet</a></div>
+    <div class="foot">100% offline · nothing leaves your browser · refresh = fresh start</div>
   </div>
 
   <div class="phoneWrap"><div class="phone" id="phone"><div class="glare"></div><div class="scr" id="scr">
     <div class="island" id="island"><span class="idot"></span><span class="itxt" id="itxt"></span></div>
+    <div class="demochip">● DEMO · NOT THE REAL APP</div>
     <div class="sb">
       <span id="clock">09:41</span>
       <div class="r"><span class="led" id="ledNet"></span><span class="led" id="ledPpl"></span><span class="led" id="ledExt"></span></div>
@@ -342,7 +360,7 @@
           <div class="wcard open" id="card-asset">
             <div class="chead" data-card="asset"><div><h2>Asset</h2><div class="sub" id="chain">connecting…</div></div><span class="chev">›</span></div>
             <div class="cbody">
-              <div class="cashcard" id="ccOpen"><div class="cc-top"><span>◖</span> CASH</div><div class="cc-bal" id="balHero">0</div></div>
+              <div class="cashcard" id="ccOpen"><div class="cc-top"><span class="cc-logo">C</span> CASH</div><div class="cc-bal" id="balHero">0</div></div>
               <div class="sub" style="font-family:var(--font-mono);font-size:10.5px;color:var(--fg-secondary);margin:10px 0 0" id="whoHero">—</div>
               <div class="mt" style="display:flex;gap:8px;align-items:center">
                 <button class="dsbtn medium" id="sendToggle" style="flex:1">↑ Send CASH</button>
@@ -373,8 +391,8 @@
             </div>
           </div>
           <div class="wcard peek90" id="card-collectibles">
-            <div class="chead" data-card="collectibles"><div><h2>Collectibles</h2><div class="sub"><span id="nftCount">—</span> collections · pallet-nfts (live)</div></div><span class="chev">›</span></div>
-            <div class="cbody"><ul class="list" id="nfts"><li><span>loading…</span></li></ul></div>
+            <div class="chead" data-card="collectibles"><div><h2>Collectibles</h2><div class="sub"><span id="nftCount">—</span> collections · pallet-nfts (demo)</div></div><span class="chev">›</span></div>
+            <div class="cbody"><img src="assets/apk/img_pocket_collectibles.webp" alt="" style="width:100%;border-radius:14px;margin-bottom:10px;display:block"><ul class="list" id="nfts"><li><span>loading…</span></li></ul></div>
           </div>
         </div>
       </div>
@@ -486,7 +504,7 @@
     <div class="ovl" id="balview">
       <div class="obhead"><button class="back" id="bvBack">✕</button><h2 style="flex:1;text-align:center">Balance card</h2><span style="width:32px;color:var(--fg-tertiary);text-align:center">⛶</span></div>
       <div class="obody">
-        <div class="cashcard" style="max-width:340px;margin:6px auto 0"><div class="cc-top"><span>◖</span> CASH</div><div class="cc-bal" id="balHero2">0</div></div>
+        <div class="cashcard" style="max-width:340px;margin:6px auto 0"><div class="cc-top"><span class="cc-logo">C</span> CASH</div><div class="cc-bal" id="balHero2">0</div></div>
         <div class="mt" style="display:flex;gap:8px;align-items:center;max-width:340px;margin:12px auto 0">
           <button class="dsbtn medium" id="bvSend" style="flex:1">↑ Send CASH</button>
           <button class="dsbtn medium tertiary" id="bvPlus" style="flex:0 0 44px;border-radius:50%;font-size:20px">＋</button>
@@ -557,6 +575,105 @@
       </div>
     </div>
 
+    <!-- ░░ APK-feature additions (all simulated, offline) ░░ -->
+    <style>
+    .callovl{align-items:center;justify-content:center;background-color:#0a0a0c!important}
+    .callinner{display:flex;flex-direction:column;align-items:center;gap:12px;height:100%;padding:14vh 24px 24px}
+    .callav{width:104px;height:104px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:38px;font-weight:800;animation:ring 1.6s infinite}
+    @keyframes ring{0%{box-shadow:0 0 0 0 rgba(255,255,255,.3)}100%{box-shadow:0 0 0 30px rgba(255,255,255,0)}}
+    .callav.live{animation:none}
+    .callname{font-family:var(--font-display);font-weight:900;font-size:26px;color:#fff}
+    .callstatus{color:#9a9aa6;font-size:14px;font-family:var(--font-mono)}
+    .callactions{display:flex;gap:24px;margin-top:26px}
+    .cbtn{width:60px;height:60px;border-radius:50%;border:none;font-size:22px;cursor:pointer;color:#fff}
+    .cbtn.accept{background:#35C759}.cbtn.decline,.cbtn.end{background:#FF3123}.cbtn.mute,.cbtn.vid{background:#2c2e34}.cbtn.mute.on{background:#fff;color:#000}
+    .g2card{background:var(--bg-container);border-radius:20px;padding:18px;margin-bottom:12px;text-align:center}
+    .gesture{font-size:70px;margin:8px 0;animation:gp .8s var(--spring)}
+    @keyframes gp{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+    .players{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:10px 0}
+    .player{background:var(--bg-nested);border-radius:14px;padding:10px 4px;text-align:center;cursor:pointer;border:2px solid transparent;transition:.15s}
+    .player.sel{border-color:var(--selection-blue)}
+    .player .pg{font-size:26px;display:block}.player small{color:var(--fg-tertiary);font-size:10px}
+    .vrow{display:flex;align-items:center;gap:10px;background:var(--bg-nested);border-radius:14px;padding:9px 11px;margin-bottom:8px;font-size:13px;font-weight:600}
+    .vrow .av{width:34px;height:34px;font-size:13px}
+    .vbtns{margin-left:auto;display:flex;gap:6px}
+    .vb{border:1px solid var(--stroke-2);background:none;color:var(--fg-primary);border-radius:999px;padding:6px 11px;font-size:12px;font-weight:600;cursor:pointer}
+    .vb.human.on{background:#35C759;color:#fff;border-color:#35C759}.vb.ai.on{background:#FF3123;color:#fff;border-color:#FF3123}
+    .meter{height:9px;border-radius:999px;background:var(--bg-nested);overflow:hidden}
+    .meter i{display:block;height:100%;background:linear-gradient(90deg,#FF2D55,#FFCC45,#35C759);width:0;transition:width .9s var(--spring)}
+    .scanstage{flex:1;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .scanframe{width:230px;height:230px;background:url("assets/apk/img_scanner_frame.png") center/contain no-repeat;z-index:2}
+    .scanline{position:absolute;width:212px;height:2px;background:linear-gradient(90deg,transparent,#35C759,transparent);box-shadow:0 0 12px #35C759;animation:scanl 2s ease-in-out infinite;z-index:2}
+    @keyframes scanl{0%,100%{transform:translateY(-104px)}50%{transform:translateY(104px)}}
+    .scanhint{position:absolute;bottom:13%;color:#fff;font-family:var(--font-mono);font-size:12px;z-index:2}
+    .pmeter{background:var(--bg-nested);border-radius:14px;padding:12px;margin-bottom:10px}
+    .pmeter .l{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}
+    .pmeter .l b{font-weight:700}
+    .vlist .vitem{display:flex;justify-content:space-between;align-items:center;background:var(--bg-nested);border-radius:12px;padding:10px 12px;margin-bottom:8px;font-size:13px}
+    .vtag{font-size:10px;border-radius:999px;padding:2px 8px;background:var(--action-tertiary);color:var(--fg-secondary)}
+    .vtag.mat{background:rgba(53,199,89,.16);color:#35C759}
+    .actbtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    .actbtns .ab{border:1px solid var(--stroke-2);background:var(--bg-nested);color:var(--fg-primary);border-radius:999px;padding:7px 13px;font-size:12px;font-weight:600;cursor:pointer}
+    .navbar .bell{width:32px;height:32px;border-radius:50%;background:var(--action-tertiary);border:none;color:var(--fg-primary);font-size:15px;cursor:pointer;margin-left:auto;position:relative}
+    .navbar .bell .nd{position:absolute;top:5px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--status-warning)}
+    .nfit{display:flex;gap:11px;padding:12px;border-radius:14px;background:var(--bg-container);margin-bottom:8px;font-size:13px}
+    .nfit .ic{width:30px;height:30px;border-radius:9px;background:var(--action-tertiary);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+    .nfit small{color:var(--fg-tertiary);display:block;font-size:11px}
+    /* requests */
+    .reqcard{display:flex;align-items:center;gap:12px;background:var(--bg-container);border-radius:16px;padding:11px 13px;margin-bottom:9px;overflow:hidden;transition:height .35s var(--spring),opacity .35s,padding .35s,margin .35s}
+    .reqcard .rqm{flex:1;min-width:0}.reqcard .rqm b{font-size:14px;font-weight:600;display:block}.reqcard .rqm small{font-size:12px;color:var(--fg-secondary)}
+    .reqcard .rqa{display:flex;gap:7px;flex:0 0 auto}
+    .rqbtn{border-radius:999px;padding:7px 13px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--stroke-2);background:none;color:var(--fg-primary)}
+    .rqbtn.acc{background:var(--action-primary);color:var(--fg-inverted);border-color:transparent}
+    .rqbtn.dec:hover{border-color:var(--status-error);color:var(--status-error)}
+    .rqempty{text-align:center;color:var(--fg-tertiary);font-size:14px;padding:40px 0}
+    .reqrow .rqc{background:var(--brand-pink);color:#fff;border-radius:999px;font-size:10px;font-weight:700;padding:1px 7px;margin-left:6px}
+    /* notifications */
+    .nfhead{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 12px;color:var(--fg-secondary);font-size:12px}
+    .nfread{background:none;border:none;color:var(--selection-blue);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font-sans)}
+    .nfg{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-tertiary);font-weight:600;margin:8px 2px 6px}
+    .nfit{align-items:center;cursor:pointer;transition:background .2s}.nfit:hover{background:var(--bg-nested)}
+    .nfit.read{opacity:.55}
+    .nfit .ic{overflow:hidden}.nfit .nfm{flex:1;min-width:0}.nfit .nfm b{font-size:13.5px;font-weight:600;display:block}
+    .nfit .nftm{font-size:10px;color:var(--fg-tertiary);font-family:var(--font-mono);flex:0 0 auto;align-self:flex-start}
+    .nfit .nfdot{width:8px;height:8px;border-radius:50%;background:var(--selection-blue);flex:0 0 auto}
+    </style>
+    <div class="ovl callovl" id="call">
+      <div class="callinner">
+        <div class="callav" id="callAv">LM</div>
+        <div class="callname" id="callName">leemo</div>
+        <div class="callstatus" id="callStatus">Incoming call…</div>
+        <div class="callactions" id="callIncoming"><button class="cbtn decline" id="callDecline">✕</button><button class="cbtn accept" id="callAccept">📞</button></div>
+        <div class="callactions" id="callOngoing" style="display:none"><button class="cbtn mute" id="callMute">🔇</button><button class="cbtn end" id="callEnd">✕</button><button class="cbtn vid" id="callVid">📷</button></div>
+        <p style="margin-top:auto;color:#55555c;font-size:10px">simulated · WebRTC call UI</p>
+      </div>
+    </div>
+
+    <div class="ovl" id="dim2">
+      <div class="obhead"><button class="back" id="g2x">✕</button><div><h2 id="g2title">Weekly Game</h2><div class="sub" id="g2sub">DIM2 · attest humans, remove AI</div></div></div>
+      <div class="obody" id="g2body"></div>
+    </div>
+
+    <div class="ovl" id="scanner" style="background:#000">
+      <div class="obhead"><button class="back" id="scX">✕</button><div><h2>Scan to pay</h2><div class="sub">point at a merchant QR</div></div></div>
+      <div class="scanstage"><div class="scanframe"></div><div class="scanline"></div><div class="scanhint" id="scHint">searching…</div></div>
+    </div>
+
+    <div class="ovl" id="signov">
+      <div class="obhead"><button class="back" id="sgX">✕</button><div><h2>Confirm</h2><div class="sub">review &amp; sign · simulated</div></div></div>
+      <div class="obody" id="sgBody"></div>
+    </div>
+
+    <div class="ovl" id="requests">
+      <div class="obhead"><button class="back" id="rqX">‹</button><div><h2>Requests</h2><div class="sub">incoming contact requests</div></div></div>
+      <div class="obody" id="rqBody"></div>
+    </div>
+
+    <div class="ovl" id="notif">
+      <div class="obhead"><button class="back" id="nfX">‹</button><h2 style="flex:1">Notifications</h2></div>
+      <div class="obody" id="nfBody"></div>
+    </div>
+
     <div class="sheetwrap" id="sheetwrap"><div class="sheet" id="sheet"></div></div>
 
     <div class="tabbar" id="tabbar"><!-- wrap-close fixed below -->
@@ -569,9 +686,9 @@
   </div></div></div>
 </div>
 
-<script type="module">
-import { ApiPromise, WsProvider } from 'https://esm.sh/@polkadot/api@15.10.2';
-import { web3Enable, web3Accounts, web3FromSource } from 'https://esm.sh/@polkadot/extension-dapp@0.59.2';
+<script>
+/* ════ OFFLINE PRESENTATION BUILD ════
+   No blockchain, no network, no wallet. Every value below is simulated demo content. */
 
 const $=id=>document.getElementById(id);
 const qrUrl=d=>'https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=0&data='+encodeURIComponent(d);
@@ -652,7 +769,7 @@ function activate(){
   if($('setIdent'))$('setIdent').textContent=D.username;
   $('g2m').textContent='0';
   setAttest('pos','✓ checked in · POAP');
-  registerGame();   /* membership active */
+  /* game card stays linked to DIM2 (set in additions) */
   refreshHero();
   islandNotify('✓ '+D.username+' · checked in');
 }
@@ -669,43 +786,70 @@ const CHATS=[
  {id:'tattoo',name:'Unique Membership Tattoo',sys:1,t:'Now',last:'**Review.** Tattoo Evidence is reviewed by other Polkadot peers…',
   msgs:[['them','**Review.** Tattoo Evidence is reviewed by other Polkadot peers, who will vote individually.'],['them','🦶 Get Inked with Any Artist You Like and Provide a 3 Minute Video Documenting the Tattoo Process']],
   quick:['Show designs','Why a tattoo?']},
- {id:'prizes',name:'Polkadot Prizes',sys:1,t:'3m',last:'**Option 2. Get a Unique Free Tattoo. One and Done Option.**…',
+ {id:'prizes',name:'Polkadot Prizes',sys:1,t:'3m',banner:'assets/apk/chat_bot_prizes_pattern.webp',last:'**Option 2. Get a Unique Free Tattoo. One and Done Option.**…',
   msgs:[['them','Option 1. Play a Weekly Game. Requires Constant Participation.\n🤖 Attest humans, remove AI in a 5 minute game'],['them','Option 2. Get a Unique Free Tattoo. One and Done Option.\n🦶 Get Inked with Any Artist You Like and Provide a 3 Minute Video Documenting the Tattoo Process']],
   quick:['Who is Polkadot Prizes?','Why become a Peer?']},
- {id:'leemo',name:'leemo',sys:0,t:'12:22',av:['var(--av2)','#C600AA','LM'],last:'Hey, are you going to Web3 Summit? 🎉',
-  msgs:[['them','Hey, are you going to Web3 Summit? 🎉'],['me','Of course! You?'],['them',"Wouldn't miss it 👋 See you there!"]],
+ {id:'leemo',name:'leemo',sys:0,t:'12:41',av:['var(--av2)','#C600AA','LM'],last:"Wouldn't miss it 👋 See you there!",
+  msgs:[
+    ['me','Hey, are you going to Web3 Summit? 🎉',{tm:'12:22',check:'✓✓'}],
+    ['them','Of course! You?',{tm:'12:40',quote:{who:'You',text:'Hey, are you going to Web3 Summit? 🎉'}}],
+    ['me',"Wouldn't miss it 👋 See you there!",{tm:'12:41',check:'✓'}]],
   quick:['Send 5 CASH','See you there 🎉']},
 ];
 function renderChats(){
   $('chatlist').innerHTML=CHATS.map(c=>`<div class="chatrow" data-chat="${c.id}">
-    ${c.sys?'<div class="av pav"></div>':`<div class="av" style="background:${c.av[0]};color:${c.av[1]}">${c.av[2]}</div>`}
+    ${c.sys?'<img class="av" src="assets/apk/ic_launcher_round.webp" alt="">':`<div class="av" style="background:${c.av[0]};color:${c.av[1]}">${c.av[2]}</div>`}
     <div class="m"><b>${c.name}</b><span>${c.last}</span></div><div class="t">${c.t}</div></div>`).join('');
   document.querySelectorAll('.chatrow').forEach(r=>r.onclick=()=>openConvo(r.dataset.chat));
 }
 renderChats();
 let curChat=null;
-function bub(side,text){const d=document.createElement('div');d.className='bub'+(side==='me'?' me':'');d.textContent=text;$('convoBody').appendChild(d);$('convoBody').scrollTop=9e9}
+function bub(side,text,opts){opts=opts||{};
+  const d=document.createElement('div');d.className='bub'+(side==='me'?' me':'');
+  d.innerHTML=(opts.quote?`<div class="qt"><b>${opts.quote.who}</b>${opts.quote.text}</div>`:'')
+    +`<div class="tx">${text}</div>`
+    +(opts.tm?`<span class="tm">${opts.tm}${opts.check?' '+opts.check:''}</span>`:'');
+  $('convoBody').appendChild(d);$('convoBody').scrollTop=9e9}
 function openConvo(id){
   curChat=CHATS.find(c=>c.id===id);
   $('convoTitle').textContent=curChat.name;
   $('convoSub').textContent=curChat.sys?'people-chain statements · simulated':'e2e encrypted · simulated';
   $('convoBody').innerHTML='';
-  curChat.msgs.forEach(([s,t])=>bub(s,t));
+  if(curChat.banner)$('convoBody').insertAdjacentHTML('beforeend',`<img src="${curChat.banner}" alt="" style="width:100%;border-radius:14px;margin-bottom:10px;display:block">`);
+  curChat.msgs.forEach(m=>bub(m[0],m[1],m[2]));
   const q=document.createElement('div');
   q.innerHTML=curChat.quick.map(x=>`<span class="qreply">${x}</span>`).join('');
   $('convoBody').appendChild(q);
   q.querySelectorAll('.qreply').forEach(el=>el.onclick=()=>{sendMsg(el.textContent)});
   $('convo').classList.add('on');
 }
+function nowHM(){const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+/* per-chat scripted "bot brain" — contextual simulated replies */
+function botReply(id,t){t=(t||'').toLowerCase();
+  const R={
+    weekly:[[/regist|join|play/,()=>{registerGame();return"You're registered ✓ Next game: Friday 18:00 — win to keep your Membership."}],
+            [/collect|reward|prize/,()=>"Play every week to earn exclusive collectibles 🎁"],
+            [/how|what|rule|gesture/,()=>"5-minute video game: copy the gesture, then tap the players who copy it too. Attest humans, remove AI 🤖"]],
+    tattoo:[[/design|show/,()=>"Browse community designs in-app — any artist, any style 🖋"],
+            [/why/,()=>"It's the ‘one & done’ path to Membership: a unique tattoo, peer-reviewed."],
+            [/how|process|proof|video/,()=>"Get inked by any artist, film a 3-min video, submit. Peers vote to verify ✅"]],
+    prizes:[[/peer/,()=>"Peers verify other humans and vote on submissions — become one to earn."],
+            [/weekly|game/,()=>"Option 1 — the weekly game. Requires constant participation."],
+            [/tattoo|ink/,()=>"Option 2 — a unique free tattoo. One and done."]],
+    leemo:[[/cash|send|pay|5/,()=>{D.cash-=5;save();refreshHero();return"Received 5 CASH 🤝 (simulated)"}],
+           [/summit|there|see you|going/,()=>"🔥 See you at the venue!"]]
+  };
+  for(const[re,fn]of (R[id]||[]))if(re.test(t))return fn();
+  return {weekly:"See you in the next game 🎮",tattoo:"Your tattoo evidence is under peer review.",
+          prizes:"Two paths to Membership — which one interests you?",
+          leemo:["gm ☀️","🙌","on my way!"][Math.random()*3|0]}[id]||"…";
+}
 function sendMsg(text){
-  if(!text)return;bub('me',text);
-  setTimeout(()=>{
-    if(curChat.id==='leemo'){
-      if(/CASH/i.test(text)){D.cash-=5;save();refreshHero();bub('them','Received 5 CASH 🤝 (simulated transfer)')}
-      else bub('them',['🔥','See you at the summit!','gm ☀️'][Math.random()*3|0]);
-    }else if(curChat.id==='weekly'&&/register/i.test(text)){registerGame();bub('them','Registered! Game starts on Friday 18:00. (simulated)')}
-    else bub('them','— system chat · scripted preview —');
-  },900);
+  if(!text)return;
+  bub('me',text,{tm:nowHM(),check:'✓'});
+  const typing=document.createElement('div');typing.className='bub typing';typing.innerHTML='<i></i><i></i><i></i>';
+  $('convoBody').appendChild(typing);$('convoBody').scrollTop=9e9;
+  setTimeout(()=>{typing.remove();bub('them',botReply(curChat.id,text),{tm:nowHM()})},1000+Math.random()*600);
 }
 $('convoSend').onclick=()=>{sendMsg($('convoIn').value.trim());$('convoIn').value=''};
 $('convoIn').addEventListener('keydown',e=>{if(e.key==='Enter')$('convoSend').click()});
@@ -813,9 +957,7 @@ $('saleX').onclick=backToPad;
 tShow();
 
 /* ══ LIVE CHAIN (verified core) + simulated signing fallback ══ */
-const ENDPOINTS=['wss://asset-hub-paseo-rpc.dwellir.com','wss://sys.ibp.network/asset-hub-paseo','wss://asset-hub-paseo.dotters.network','wss://rpc-asset-hub-paseo.luckyfriday.io'];
-const PEOPLE=['wss://sys.ibp.network/people-paseo','wss://people-paseo.dotters.network','wss://people-paseo.rpc.amforc.com'];
-let api,apiPeople,decimals=10,symbol='PAS',extAccounts=[],forceSim=false;
+let decimals=10,symbol='PAS';   /* offline: no chain, no endpoints */
 function fmt(p,dec=decimals){const n=BigInt(p.toString());const b=10n**BigInt(dec);
   return `${(n/b).toLocaleString('en')}.${(n%b).toString().padStart(dec,'0').slice(0,4)}`}
 function compact(p,dec){const n=Number(BigInt(p.toString())/10n**BigInt(Math.max(0,dec-2)))/100;
@@ -823,50 +965,31 @@ function compact(p,dec){const n=Number(BigInt(p.toString())/10n**BigInt(Math.max
 function show(el,html){el.innerHTML=html;el.classList.add('show')}
 const short=a=>a.slice(0,7)+'…'+a.slice(-5);
 
-(async()=>{try{
-    const provider=new WsProvider(ENDPOINTS,2500);
-    provider.on('connected',()=>{$('dbgNet').textContent=(provider.endpoint||'').replace('wss://','').slice(0,22)});
-    api=await ApiPromise.create({provider});
-    decimals=api.registry.chainDecimals[0]??10;symbol=api.registry.chainTokens[0]??'PAS';
-    $('chain').textContent=(await api.rpc.system.chain()).toString()+' · live';
-    $('dbg').textContent=`${api.runtimeVersion.specName}/${api.runtimeVersion.specVersion}`;
-    $('ledNet').className='led on';
-    $('island').classList.add('live');islandNotify('Polkadot · live');
-    loadAssets();loadNfts();
-  }catch(e){$('ledNet').className='led err';$('chain').textContent='offline · simulated'}})();
-(async()=>{try{apiPeople=await ApiPromise.create({provider:new WsProvider(PEOPLE,2500)});$('ledPpl').className='led on'}
-  catch(e){$('ledPpl').className='led err'}})();
+/* offline demo "network" state */
+$('chain').textContent='Asset Hub · demo';
+$('dbg').textContent='asset-hub · demo';
+$('dbgNet').textContent='offline · demo';
+$('ledNet').className='led on';$('ledPpl').className='led on';
+loadAssets();loadNfts();
+setTimeout(()=>{$('island').classList.add('live');islandNotify('Polkadot · demo')},800);
 
-async function loadAssets(){const ul=$('assets');
-  try{const metas=await api.query.assets.metadata.entriesPaged({args:[],pageSize:12});
-    const rows=await Promise.all(metas.slice(0,6).map(async([key,m])=>{
-      let supply='—';try{const a=await api.query.assets.asset(key.args[0]);if(a.isSome)supply=compact(a.unwrap().supply,m.decimals.toNumber())}catch{}
-      return `<li><b>#${key.args[0]} ${new TextDecoder().decode(m.symbol.toU8a(true))}</b><span>${m.decimals.toNumber()} dec · ${supply}</span></li>`}));
-    ul.innerHTML=rows.join('')||'<li><span>none</span></li>'}catch(e){ul.innerHTML='<li><span>query failed</span></li>'}}
-async function loadNfts(){const ul=$('nfts');
-  try{const cols=await api.query.nfts.collection.entriesPaged({args:[],pageSize:30});
-    $('nftCount').textContent=cols.length+(cols.length===30?'+':'');
-    ul.innerHTML=cols.slice(0,6).map(([key,v])=>{const d=v.unwrapOr(null);
-      return `<li><b>#${key.args[0]}</b><span>${d?`${d.items.toNumber()} items · ${short(d.owner.toString())}`:'—'}</span></li>`}).join('')||'<li><span>none yet</span></li>'}
-  catch(e){ul.innerHTML='<li><span>query failed</span></li>'}}
+function loadAssets(){$('assets').innerHTML=[
+  ['1337','CASH','2 dec · 1.24M'],['50000939','tUSDC','6 dec · 1.00M'],
+  ['50000985','DOT','18 dec · 1.00B'],['1984','USDt','6 dec · 480k']
+].map(([id,s,m])=>`<li><b>#${id} ${s}</b><span>${m}</span></li>`).join('')}
+function loadNfts(){$('nftCount').textContent='12';$('nfts').innerHTML=[
+  ['7','Web3 Summit Pass','1 · soulbound'],['8','Attendance POAP','340 items'],['9','Festival POAP','5 items']
+].map(([id,n,m])=>`<li><b>#${id} ${n}</b><span>${m}</span></li>`).join('')}
 
 function setAttest(s,l){const el=$('attest');el.className='attest '+s;el.textContent=l}
-$('lookup').onclick=async e=>{e.stopPropagation();
-  const a=$('who').value.trim();if(!api||!a)return;
-  try{const{data,nonce}=await api.query.system.account(a);
-    $('bFree').textContent=fmt(data.free)+' '+symbol;$('bRes').textContent=fmt(data.reserved)+' '+symbol;
-    $('bNonce').textContent=nonce.toString();$('balOut').classList.remove('show');
-  }catch(err){show($('balOut'),`<b>Invalid address:</b> ${err.message||err}`);return}
-  $('bIdent').textContent='…';
-  try{if(!apiPeople)throw 0;
-    const opt=await apiPeople.query.identity.identityOf(a);
-    if(opt.isSome){const reg=opt.unwrap();const info=reg.info??reg[0]?.info;const disp=info?.display;
-      const name=disp&&disp.isRaw?new TextDecoder().decode(disp.asRaw.toU8a(true)):'set';
-      $('bIdent').textContent=name;$('identSub').textContent=name+' · people chain';
-      $('rank').textContent='Member';$('rank').className='rankpill member';$('g2m').textContent='0';
-      setAttest('pos','✓ on-chain identity')}
-    else{$('bIdent').textContent='none';$('rank').textContent='Basic';$('rank').className='rankpill';setAttest('neg','✗ no identity')}
-  }catch{$('bIdent').textContent='n/a';setAttest('unk','people chain unavailable')}};
+$('lookup').onclick=e=>{e.stopPropagation();
+  const a=$('who').value.trim();if(!a)return;
+  const name=a.replace(/\.dot$/,'');
+  $('bFree').textContent='125.40 CASH';$('bRes').textContent='25.00 CASH';$('bNonce').textContent='7';
+  $('balOut').classList.remove('show');
+  $('bIdent').textContent=name;$('identSub').textContent=name+'.dot · people chain (demo)';
+  $('rank').textContent='Member';$('rank').className='rankpill member';$('g2m').textContent='0';
+  setAttest('pos','✓ identity (demo)')};
 $('who').addEventListener('keydown',e=>{if(e.key==='Enter')$('lookup').click()});
 
 /* simulated tx engine (used when no extension / forced) */
@@ -889,33 +1012,181 @@ $('bSearch').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.value.t
   document.querySelector(`[data-app="${app}"]`)?.click()||($('sbTitle').textContent=app+'.dot',
     $('sbBody').innerHTML=`<div class="bsec" style="margin:12px 0"><h3>${app} <span>not found on dotNS · simulated</span></h3><p class="hint">No app registered at <b>${app}.dot</b>.</p></div>`,
     $('sandbox').classList.add('on'))}});
-$('connect').onclick=async e=>{e.stopPropagation();
-  try{const exts=await web3Enable('TWR.DOT');
-    if(!exts.length){$('ledExt').className='led err';show($('txOut'),'<b>No extension</b> — staying in simulated mode.');return}
-    extAccounts=await web3Accounts();const sel=$('from');sel.innerHTML='';
-    extAccounts.forEach((a,i)=>{const o=document.createElement('option');o.value=i;o.textContent=`${a.meta.name||'account'} · ${short(a.address)}`;sel.appendChild(o)});
-    $('ledExt').className='led on';show($('txOut'),'<b>Wallet connected</b> — real signing enabled.')}
-  catch(err){show($('txOut'),`<b>Wallet error:</b> ${err.message||err}`)}};
-$('simRow').onclick=()=>{forceSim=!forceSim;$('simState').textContent=forceSim?'forced ON':'auto'};
-async function runReal(tx,outEl,doneLabel){
-  const acc=extAccounts[$('from').value|0];
-  const injector=await web3FromSource(acc.meta.source);
-  show(outEl,'<b>Signing…</b> approve in your wallet.');
-  const unsub=await tx.signAndSend(acc.address,{signer:injector.signer},({status,txHash,dispatchError})=>{
-    if(dispatchError){let m=dispatchError.toString();
-      if(dispatchError.isModule){const d=api.registry.findMetaError(dispatchError.asModule);m=`${d.section}.${d.name}`}
-      show(outEl,`<b>Transaction failed</b> — ${m}`);unsub();return}
-    if(status.isInBlock)show(outEl,`<b>In progress</b> · ${txHash.toHex().slice(0,18)}…`);
-    if(status.isFinalized){show(outEl,`<b>Completed</b> ${doneLabel}<br><a href="https://assethub-paseo.subscan.io/extrinsic/${txHash.toHex()}" target="_blank">Subscan ↗</a>`);unsub()}});
+$('connect').onclick=e=>{e.stopPropagation();$('ledExt').className='led on';
+  $('from').innerHTML='<option>thewhiterabbitm · demo</option>';
+  show($('txOut'),'<b>Wallet connected</b> (demo account)')};
+if($('simRow'))$('simRow').onclick=()=>{$('simState').textContent='demo'};
+/* ════════════ APK-FEATURE ADDITIONS (all simulated, offline) ════════════ */
+const ovlOn=(id,on)=>$(id).classList[on?'add':'remove']('on');
+const AV=[['var(--av2)','#C600AA','LM'],['var(--av6)','#0a7a4d','GV'],['var(--av3)','#0a5f7a','CA'],['var(--av7)','#5c7a0a','BO']];
+if(D.personhood===undefined)D.personhood=35;
+
+/* —— transaction sign / outcome —— */
+function signTx(title,amount,onDone){
+  $('sgBody').innerHTML=`<div class="bsec" style="margin:12px 0"><h3>${title}</h3>
+    <div class="kv"><div><span>Amount</span><b>${fmtC(amount)} CASH</b></div>
+    <div><span>Network fee</span><b>covered by allowance</b></div>
+    <div><span>From</span><b>${(D.username||'you')}.dot</b></div></div></div>
+    <button class="dsbtn" id="sgSign">⊙ Sign with Face ID</button><div class="out" id="sgOut"></div>`;
+  ovlOn('signov',1);
+  $('sgSign').onclick=()=>{show($('sgOut'),'<b>Signing…</b> (simulated)');
+    setTimeout(()=>{onDone&&onDone();show($('sgOut'),'<b>Completed ✓</b> Transaction included.');islandNotify('✓ '+fmtC(amount)+' CASH');setTimeout(()=>ovlOn('signov',0),1300)},1400)};
 }
-$('send').onclick=async e=>{e.stopPropagation();
-  const amt=parseFloat($('amt').value);if(!(amt>0)){show($('txOut'),'<b>Enter a positive amount.</b>');return}
-  const dest=$('dest').value.trim();
-  if(extAccounts.length&&!forceSim&&api&&dest.length>40){
-    try{const planck=BigInt(Math.round(amt*1e6))*10n**BigInt(decimals-6);
-      await runReal(api.tx.balances.transferKeepAlive(dest,planck),$('txOut'),'— real transfer.')}
-    catch(err){show($('txOut'),`<b>Rejected:</b> ${err.message||err}`)}}
-  else simTx($('txOut'),`— sent ${fmtC(amt)} CASH to ${dest||'…'}.`,amt)};
+$('sgX').onclick=()=>ovlOn('signov',0);
+$('send').onclick=e=>{e.stopPropagation();const amt=parseFloat($('amt').value);if(!(amt>0)){show($('txOut'),'<b>Enter a positive amount.</b>');return}
+  const dest=$('dest').value.trim();signTx('Send to '+(dest||'…'),amt,()=>{D.cash-=amt;save();refreshHero();show($('txOut'),'<b>Sent ✓</b>')})};
+
+/* —— audio / video calls (WebRTC look) —— */
+function startCall(name,av){av=av||AV[0];$('callName').textContent=name;$('callAv').textContent=av[2];$('callAv').style.background=av[0];$('callAv').style.color=av[1];
+  $('callAv').classList.remove('live');$('callStatus').textContent='Incoming call…';$('callIncoming').style.display='flex';$('callOngoing').style.display='none';ovlOn('call',1)}
+$('callAccept').onclick=()=>{$('callIncoming').style.display='none';$('callOngoing').style.display='flex';$('callAv').classList.add('live');
+  let s=0;$('callStatus').textContent='00:00';clearInterval(window._ct);window._ct=setInterval(()=>{s++;$('callStatus').textContent=String(s/60|0).padStart(2,'0')+':'+String(s%60).padStart(2,'0')},1000)};
+const endCall=()=>{clearInterval(window._ct);ovlOn('call',0)};
+$('callDecline').onclick=endCall;$('callEnd').onclick=endCall;
+$('callMute').onclick=e=>e.currentTarget.classList.toggle('on');$('callVid').onclick=()=>islandNotify('📷 video on');
+/* call button in conversation header for person chats */
+(function(){const h=document.querySelector('#convo .obhead');const b=document.createElement('button');b.className='back';b.id='convoCall';b.textContent='📞';b.style.marginLeft='auto';b.style.display='none';h.appendChild(b);
+  const _o=openConvo;openConvo=function(id){_o(id);const c=CHATS.find(x=>x.id===id);b.style.display=(c&&!c.sys)?'':'none';b.onclick=()=>c&&startCall(c.name,c.av)};})();
+
+/* —— DIM2 gesture game + voting —— */
+const GEST=['✋','✊','✌️','🤙','👌','🤟'];let g2round=0,g2score=0;
+function dim2(){ovlOn('dim2',1);g2Waiting()}
+function g2Waiting(){$('g2body').innerHTML=`<div class="g2card"><div style="font-size:42px">⏳</div><h3 style="font-family:var(--font-display)">Waiting room</h3><p class="hint">Game starts when players join.</p>
+  <div class="players">${[1,2,3,4,5].map(i=>`<div class="player"><span class="pg">🙂</span><small>player ${i}</small></div>`).join('')}<div class="player sel"><span class="pg">⭐</span><small>you</small></div></div>
+  <button class="dsbtn" id="g2start">Start round</button></div>`;$('g2start').onclick=()=>{g2round=0;g2score=0;g2Gesture()}}
+function g2Gesture(){g2round++;if(g2round>3)return g2Vote();const g=GEST[Math.random()*GEST.length|0];
+  $('g2body').innerHTML=`<div class="g2card"><p class="hint">Round ${g2round}/3 · copy the gesture</p><div class="gesture">${g}</div>
+  <p class="hint">Tap the players who copied it too</p>
+  <div class="players" id="g2pl">${[0,1,2,3,4,5].map(i=>`<div class="player" data-ai="${Math.random()<.3?1:0}"><span class="pg">${Math.random()<.7?g:GEST[Math.random()*6|0]}</span><small>p${i+1}</small></div>`).join('')}</div>
+  <button class="dsbtn" id="g2next">Next</button></div>`;
+  document.querySelectorAll('#g2pl .player').forEach(p=>p.onclick=()=>p.classList.toggle('sel'));
+  $('g2next').onclick=()=>{document.querySelectorAll('#g2pl .player.sel').forEach(p=>{if(p.dataset.ai==='0')g2score++});g2Gesture()}}
+function g2Vote(){const ppl=AV.slice(0,4);$('g2body').innerHTML=`<div class="g2card" style="text-align:left"><h3 style="font-family:var(--font-display);text-align:center">Vote</h3><p class="hint" style="text-align:center">Human or AI?</p>
+  ${ppl.map((a,i)=>`<div class="vrow"><div class="av" style="background:${a[0]};color:${a[1]}">${a[2]}</div>player ${i+1}<div class="vbtns"><button class="vb human">Human</button><button class="vb ai">AI</button></div></div>`).join('')}
+  <button class="dsbtn" id="g2done" style="margin-top:8px">Submit votes</button></div>`;
+  document.querySelectorAll('#g2body .vb').forEach(b=>b.onclick=()=>{const r=b.closest('.vrow');r.querySelectorAll('.vb').forEach(x=>x.classList.remove('on'));b.classList.add('on')});
+  $('g2done').onclick=g2Result}
+function g2Result(){const passed=g2score>=2;D.personhood=Math.min(100,D.personhood+(passed?28:6));save();updatePersonhood();
+  $('g2body').innerHTML=`<div class="g2card"><div style="font-size:54px">${passed?'🎉':'😬'}</div><h3 style="font-family:var(--font-display)">${passed?'Game succeeded':'Game ended'}</h3>
+  <p class="hint">${passed?'You attested humans correctly.':'Play more games to reach Membership.'}</p>
+  <div class="meter" style="margin:14px 0"><i style="width:${D.personhood}%"></i></div><p class="hint">Personhood: <b style="color:var(--fg-primary)">${D.personhood}%</b></p>
+  <button class="dsbtn" id="g2close">${D.personhood>=80?'Membership reached ✓':'Close'}</button></div>`;
+  if(D.personhood>=80){$('rank').textContent='Member';$('rank').className='rankpill member';setAttest('pos','✓ personhood reached')}
+  $('g2close').onclick=()=>ovlOn('dim2',0)}
+$('g2x').onclick=()=>ovlOn('dim2',0);
+
+/* personhood meter injected into Identity card */
+function updatePersonhood(){const b=$('pmeterbar');if(b){b.style.width=D.personhood+'%';$('pmetertxt').textContent=D.personhood+'%'}}
+(function(){const cb=document.querySelector('#card-identity .cbody');if(cb){const d=document.createElement('div');d.className='pmeter';
+  d.innerHTML=`<div class="l"><span>Personhood</span><b id="pmetertxt">35%</b></div><div class="meter"><i id="pmeterbar" style="width:35%"></i></div>`;cb.insertBefore(d,cb.firstChild)}})();
+
+/* —— QR scanner (buyer side) —— */
+function openScanner(){ovlOn('scanner',1);$('scHint').textContent='searching…';
+  setTimeout(()=>{$('scHint').textContent='merchant: cafe-luma.dot · 12.50 CASH';
+    setTimeout(()=>{ovlOn('scanner',0);signTx('Pay cafe-luma.dot',12.5,()=>{D.cash-=12.5;save();refreshHero()})},1400)},2200)}
+$('scX').onclick=()=>ovlOn('scanner',0);
+
+/* —— vouchers + allowance —— */
+function vouchersSheet(){sheet(`<h4>Vouchers</h4><p>Privacy vouchers (bearer coins) by denomination.</p><div class="vlist">
+  <div class="vitem"><span>1 × 100 CASH</span><span class="vtag mat">matured</span></div>
+  <div class="vitem"><span>2 × 10 CASH</span><span class="vtag mat">matured</span></div>
+  <div class="vitem"><span>1 × 25 CASH</span><span class="vtag">maturing · 2h</span></div>
+  <div class="vitem"><span>referral voucher</span><span class="vtag">pending</span></div></div>
+  <div class="actbtns"><button class="ab" id="vsplit">Split</button><button class="ab" id="vmerge">Merge</button><button class="ab" id="vdone">Done</button></div>`);
+  setTimeout(()=>{$('vsplit').onclick=()=>islandNotify('voucher split (sim)');$('vmerge').onclick=()=>islandNotify('vouchers merged (sim)');$('vdone').onclick=closeSheet},0)}
+
+/* —— contact requests —— */
+let REQS=[{n:'orbit.dot',s:'wants to connect',i:0},{n:'kusama_kid.dot',s:'2 mutual contacts',i:1},{n:'satoshi.dot',s:'scanned your QR code',i:2}];
+function renderReqBadge(){const row=document.querySelector('#tab-chat .reqrow');if(!row)return;
+  let b=row.querySelector('.rqc');if(!b){b=document.createElement('span');b.className='rqc';const chev=row.querySelector('span:last-child');row.insertBefore(b,chev)}
+  b.textContent=REQS.length;b.style.display=REQS.length?'':'none'}
+function openRequests(){
+  if(!REQS.length){$('rqBody').innerHTML='<div class="rqempty">No pending requests 🎉</div>'}
+  else $('rqBody').innerHTML=REQS.map(r=>`<div class="reqcard" data-i="${r.i}"><div class="av" style="background:${AV[r.i%4][0]};color:${AV[r.i%4][1]}">${r.n.slice(0,2).toUpperCase()}</div><div class="rqm"><b>${r.n}</b><small>${r.s}</small></div><div class="rqa"><button class="rqbtn dec">Decline</button><button class="rqbtn acc">Accept</button></div></div>`).join('')+'<p class="hint" style="margin-top:6px">Accept to start an end-to-end encrypted chat.</p>';
+  ovlOn('requests',1);
+  document.querySelectorAll('#rqBody .reqcard').forEach(card=>{const i=+card.dataset.i;
+    card.querySelector('.acc').onclick=()=>resolveReq(card,i,true);
+    card.querySelector('.dec').onclick=()=>resolveReq(card,i,false)})}
+function resolveReq(card,i,accept){
+  card.querySelector('.rqa').innerHTML=`<span class="vtag ${accept?'mat':''}">${accept?'accepted ✓':'declined'}</span>`;
+  if(accept)islandNotify('Connected ✓ e2e chat ready');
+  setTimeout(()=>{card.style.height=card.offsetHeight+'px';requestAnimationFrame(()=>{card.style.height='0';card.style.opacity='0';card.style.margin='0';card.style.padding='0';card.style.border='0'});
+    setTimeout(()=>{REQS=REQS.filter(r=>r.i!==i);renderReqBadge();card.remove();if(!REQS.length)$('rqBody').innerHTML='<div class="rqempty">No pending requests 🎉</div>'},360)},650)}
+$('rqX').onclick=()=>ovlOn('requests',0);
+
+/* —— notifications —— */
+const NOTIF=[
+  {g:'Today',ic:'logo',t:'Weekly Game',s:'Next game starts in 2h — register now',tm:'2m',act:()=>{ovlOn('notif',0);dim2()}},
+  {g:'Today',ic:'💸',t:'Payment received',s:'+12.50 CASH from a sale at café-luma.dot',tm:'1h',act:()=>{ovlOn('notif',0);document.querySelector('[data-tab="pocket"]').click()}},
+  {g:'Today',ic:'logo',t:'Tattoo evidence approved',s:'4 peers verified your proof-of-ink — Membership granted',tm:'3h'},
+  {g:'Earlier',ic:'📞',t:'Missed call',s:'leemo',tm:'Yest',act:()=>{ovlOn('notif',0);startCall('leemo',AV[0])}},
+  {g:'Earlier',ic:'🔗',t:'New device paired',s:'Polkadot Desktop · via QR',tm:'Yest'}];
+function openNotif(){
+  const groups=[...new Set(NOTIF.map(n=>n.g))];
+  $('nfBody').innerHTML=`<div class="nfhead"><span>${NOTIF.length} new</span><button class="nfread" id="nfread">Mark all read</button></div>`+
+   groups.map(g=>`<div class="nfg">${g}</div>`+NOTIF.filter(n=>n.g===g).map(n=>{const i=NOTIF.indexOf(n);
+     return `<div class="nfit" data-i="${i}"><div class="ic">${n.ic==='logo'?'<img src="assets/apk/ic_launcher_round.webp" style="width:100%;height:100%;border-radius:9px">':n.ic}</div><div class="nfm"><b>${n.t}</b><small>${n.s}</small></div><span class="nftm">${n.tm}</span><span class="nfdot"></span></div>`}).join('')).join('');
+  ovlOn('notif',1);
+  const nd=document.querySelector('#tab-chat .navbar .bell .nd');if(nd)nd.style.display='none';
+  document.querySelectorAll('#nfBody .nfit').forEach(el=>{const i=+el.dataset.i;el.onclick=()=>{el.querySelector('.nfdot').style.display='none';el.classList.add('read');NOTIF[i].act&&NOTIF[i].act()}});
+  $('nfread').onclick=()=>{document.querySelectorAll('#nfBody .nfdot').forEach(d=>d.style.display='none');document.querySelectorAll('#nfBody .nfit').forEach(e=>e.classList.add('read'));$('nfread').textContent='All read ✓'}}
+$('nfX').onclick=()=>ovlOn('notif',0);
+
+/* —— username upgrade —— */
+function upgradeUsername(){sheet(`<h4>Upgrade username</h4><p>Move from <b>PopLite</b> to <b>PopFull</b> personhood tier.</p>
+  <div class="lbl">Desired name</div><input id="upn" value="${D.username||''}"><div class="yours" id="upok" style="height:16px"></div>
+  <button class="dsbtn" id="updo">Upgrade</button>`);
+  setTimeout(()=>{const i=$('upn');const chk=()=>{const taken=/leemo|admin|polkadot|dot/i.test(i.value);$('upok').textContent=taken?'✗ name is taken':'✓ available';$('upok').style.color=taken?'var(--status-error)':'var(--status-success)'};i.oninput=chk;chk();
+    $('updo').onclick=()=>{closeSheet();islandNotify('Username upgraded → PopFull ✓');$('rank').textContent='Member';$('rank').className='rankpill member'}},0)}
+
+/* —— passkey backup / restore / force-reclaim —— */
+$('backupRow').onclick=()=>{sheet(`<h4>Backup &amp; recovery</h4><p>Secure your account key. No custodian can recover it for you.</p>
+  <button class="dsbtn" id="bkpk">🔑 Create passkey backup</button>
+  <div class="mt"><button class="dsbtn tertiary" id="bkic">iCloud Keychain</button></div>
+  <div class="mt"><button class="dsbtn tertiary" id="bkdr">Google Drive</button></div>
+  <div class="mt"><button class="dsbtn tertiary" id="bkrc">↺ Force-reclaim expired reservation / coins</button></div>`);
+  setTimeout(()=>{const done=()=>{D.backedUp=true;save();backupUI();closeSheet();islandNotify('Backup complete ✓')};
+    $('bkpk').onclick=done;$('bkic').onclick=done;$('bkdr').onclick=done;$('bkrc').onclick=()=>{closeSheet();islandNotify('Reclaimed (sim)')}},0)};
+
+/* —— tattoo (Proof-of-Ink) evidence + Mob Rule —— */
+function tattooEvidence(){sheet(`<h4>Submit tattoo evidence</h4><p>Document your ink: a photo + a 3-minute video. Peers review &amp; vote.</p>
+  <img src="assets/apk/img_proof_of_ink_documentation.png" style="width:100%;border-radius:12px;margin:6px 0">
+  <div class="actbtns"><button class="ab">📷 Take photo</button><button class="ab">🎥 Film 3-min video ▶</button></div>
+  <button class="dsbtn" id="evsub" style="margin-top:10px">Submit for peer review</button>`);
+  setTimeout(()=>$('evsub').onclick=()=>{closeSheet();openConvo('tattoo');
+    setTimeout(()=>{const t=document.createElement('div');t.className='bub typing';t.innerHTML='<i></i><i></i><i></i>';$('convoBody').appendChild(t);
+      setTimeout(()=>{t.remove();bub('them','✅ Evidence approved by 4 peers — Membership granted!',{tm:nowHM()});D.personhood=100;updatePersonhood();$('rank').textContent='Member';$('rank').className='rankpill member';setAttest('pos','✓ proof-of-ink')},1600)},350)},0)}
+const _br=botReply;botReply=function(id,t){
+  if(id==='tattoo'&&/photo|video|evidence|submit/i.test(t)){setTimeout(tattooEvidence,400);return"Opening the evidence camera 📷"}
+  if(id==='tattoo'&&/reserve|design/i.test(t))return"Design reserved ✓ Get inked, then tap ‘Submit evidence’.";
+  if(id==='mob')return /how/i.test(t)?"Review the evidence, then vote with the community — majority decides ⚖️":"Case noted. Cast your vote 🗳";
+  return _br(id,t)};
+{const tat=CHATS.find(c=>c.id==='tattoo');if(tat){tat.banner='assets/apk/img_proof_of_ink_final_photo.png';tat.quick=['Reserve design','Submit evidence','How does it work?'];}
+ CHATS.push({id:'mob',name:'Mob Rule',sys:1,t:'5m',last:'A new case is open for community vote.',msgs:[['them','⚖️ Mob Rule — a new case is open.'],['them','Review the evidence and cast your vote with the community.']],quick:['Review case','How does it work?']});
+ renderChats();}
+
+/* —— inject triggers into existing UI —— */
+(function(){
+  /* game card → DIM2 */
+  if($('gBtn')){$('gBtn').textContent='Play weekly game';$('gBtn').onclick=dim2}
+  /* incoming requests row → requests */
+  const rq=document.querySelector('#tab-chat .reqrow');if(rq)rq.onclick=openRequests;
+  renderReqBadge();
+  /* bell in chat navbar → notifications */
+  const nb=document.querySelector('#tab-chat .navbar');if(nb){nb.querySelector('h1').style.flex='1';
+    const bell=document.createElement('button');bell.className='bell';bell.innerHTML='🔔<span class="nd"></span>';bell.onclick=openNotif;nb.insertBefore(bell,$('addChat'))}
+  /* Scan to pay in Balance card */
+  if($('bvPlus')){const row=$('bvPlus').parentElement;row.insertAdjacentHTML('afterend','<div style="max-width:340px;margin:8px auto 0"><button class="dsbtn medium tertiary" id="scanBtn">⊡ Scan to pay</button></div>');$('scanBtn').onclick=openScanner}
+  /* vouchers row → sheet, + allowance row */
+  if($('cbVouch')){const vr=$('cbVouch').closest('div');vr.style.cursor='pointer';vr.onclick=vouchersSheet;
+    $('cbVouch').closest('.kv').insertAdjacentHTML('beforeend','<div><span>Allowance (PoUD)</span><b>200 free tx</b></div>')}
+  /* username upgrade in Settings */
+  if($('themeRow'))$('themeRow').insertAdjacentHTML('afterend','<div class="mitem" id="upgRow"><div class="mic">⭐</div>Upgrade username<div class="mr"><span>PopLite → PopFull</span><span>›</span></div></div>');
+  if($('upgRow'))$('upgRow').onclick=upgradeUsername;
+})();
+
+/* one simulated incoming call after the user is in the app */
+setTimeout(()=>{if(!$('onb').classList.contains('on')&&!$('checkin').classList.contains('on')&&!$('call').classList.contains('on'))startCall('leemo',AV[0])},26000);
 </script>
 </body>
 </html>
